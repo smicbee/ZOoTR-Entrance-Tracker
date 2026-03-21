@@ -157,6 +157,36 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         applyState({ ...getInitialState(nextConfig.hyrule), locationChecks: getInitialLocationChecks(nextConfig.locationTrackerData), showTracker: false }, nextConfig);
     };
 
+    const loadBlobConfig = async () => {
+        try {
+            const response = await fetch('/api/config');
+            const result = await response.json();
+            if (!response.ok || !result.ok) {
+                return { ok: false, error: result.error || 'Blob load failed' };
+            }
+            return { ok: true, config: result.config };
+        } catch (error) {
+            return { ok: false, error: error.message };
+        }
+    };
+
+    const publishBlobConfig = async (config) => {
+        try {
+            const response = await fetch('/api/config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ config })
+            });
+            const result = await response.json();
+            if (!response.ok || !result.ok) {
+                return { ok: false, error: result.error || 'Blob publish failed' };
+            }
+            return { ok: true, updatedAt: result.updatedAt, latestUrl: result.latestUrl };
+        } catch (error) {
+            return { ok: false, error: error.message };
+        }
+    };
+
     const exportState = () => ({
         availableOverworldEntrances,
         availableGrottoEntrances,
@@ -913,6 +943,8 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 onClose={() => setShowAdmin(false)}
                 trackerConfig={trackerConfig}
                 onSaveConfig={saveTrackerConfig}
+                onLoadBlobConfig={loadBlobConfig}
+                onPublishBlobConfig={publishBlobConfig}
             />
 
             <div className="user-prompts">

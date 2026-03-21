@@ -29,7 +29,7 @@ function clone(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
-export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfig }) {
+export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfig, onLoadBlobConfig, onPublishBlobConfig }) {
     const [users, setUsers] = useState(getUsers());
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loginUser, setLoginUser] = useState("admin");
@@ -48,6 +48,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
     const [newUsername, setNewUsername] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [selectedUser, setSelectedUser] = useState("admin");
+    const [blobStatus, setBlobStatus] = useState("");
 
     const regionNames = useMemo(() => Object.keys(draftConfig.hyrule || {}), [draftConfig]);
     const activeRegion = selectedRegion || regionNames[0] || "";
@@ -217,6 +218,30 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
         onClose();
     };
 
+    const loadFromBlob = async () => {
+        setBlobStatus("Loading config from blob...");
+        const result = await onLoadBlobConfig();
+        if (!result.ok) {
+            setBlobStatus(result.error || "Blob load failed");
+            return;
+        }
+        setDraftConfig(clone(result.config));
+        const firstRegion = Object.keys(result.config?.hyrule || {})[0] || "";
+        setSelectedRegion(firstRegion);
+        setBlobStatus("Blob config loaded");
+    };
+
+    const publishToBlob = async () => {
+        setBlobStatus("Publishing config to blob...");
+        const result = await onPublishBlobConfig(clone(draftConfig));
+        if (!result.ok) {
+            setBlobStatus(result.error || "Blob publish failed");
+            return;
+        }
+        onSaveConfig(clone(draftConfig));
+        setBlobStatus(`Published: ${result.updatedAt}`);
+    };
+
     return (
         <div className="tracker-modal-overlay" onClick={onClose}>
             <div className="tracker-modal-card admin-modal-card" onClick={(e) => e.stopPropagation()}>
@@ -247,6 +272,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                                     <li className={tab === "entrances" ? "is-active" : ""}><a href="#entrances" onClick={e => { e.preventDefault(); setTab("entrances"); }}>Entrances</a></li>
                                     <li className={tab === "tracker" ? "is-active" : ""}><a href="#tracker" onClick={e => { e.preventDefault(); setTab("tracker"); }}>Tracker Items</a></li>
                                     <li className={tab === "users" ? "is-active" : ""}><a href="#users" onClick={e => { e.preventDefault(); setTab("users"); }}>User Access</a></li>
+                                    <li className={tab === "blob" ? "is-active" : ""}><a href="#blob" onClick={e => { e.preventDefault(); setTab("blob"); }}>Blob</a></li>
                                 </ul>
                             </div>
 
@@ -335,6 +361,17 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                                         <button className="button is-warning is-light" onClick={updateUserPassword}>Update Password</button>
                                         <button className="button is-danger is-light" onClick={deleteUser}>Delete User</button>
                                     </div>
+                                </div>
+                            )}
+
+                            {tab === "blob" && (
+                                <div className="admin-grid">
+                                    <p>Load/publish the current config via Vercel Blob.</p>
+                                    <div className="buttons">
+                                        <button className="button is-link is-light" onClick={loadFromBlob}>Load from Blob</button>
+                                        <button className="button is-primary" onClick={publishToBlob}>Publish to Blob</button>
+                                    </div>
+                                    {blobStatus ? <p className="has-text-info">{blobStatus}</p> : null}
                                 </div>
                             )}
 
