@@ -256,6 +256,12 @@ html {
     font-size: 0.95rem;
 }
 
+.tracker-modal-close {
+    min-width: 36px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
 .tracker-modal-content {
     padding: 1rem;
     max-height: calc(85vh - 88px);

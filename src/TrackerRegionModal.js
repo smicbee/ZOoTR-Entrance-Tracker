@@ -18,7 +18,7 @@ export default function TrackerRegionModal({ region, isOpen, onClose, locationCh
                         <h3 className="title is-5 has-text-white tracker-modal-title">{region}</h3>
                         <p className="tracker-modal-subtitle">{checked}/{items.length} erledigt</p>
                     </div>
-                    <button type="button" className="button is-small is-dark is-outlined" onClick={onClose}>Close</button>
+                    <button type="button" className="button is-small is-dark is-outlined tracker-modal-close" onClick={onClose} aria-label="Close tracker modal">✕</button>
                 </div>
                 <div className="tracker-modal-content">
                     {items.map(item => (

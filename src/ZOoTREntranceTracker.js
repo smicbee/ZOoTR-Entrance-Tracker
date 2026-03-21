@@ -198,8 +198,6 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
 
     const openTrackerForArea = (areaName) => {
         const region = getTrackerRegionForArea(areaName);
-        setShowTracker(true);
-        setTrackerFocusRegion(region);
         setTrackerModalRegion(region);
     };
 

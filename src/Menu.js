@@ -270,7 +270,11 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                             <button
                                 type="button"
                                 className="button is-small is-dark is-outlined seed-bar-toggle"
-                                onClick={() => setShowSeedBar(!showSeedBar)}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowSeedBar(!showSeedBar);
+                                }}
                             >
                                 {showSeedBar ? "Hide Seeds" : `Seeds (${savedSeeds.length})`}
                             </button>
@@ -311,13 +315,32 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                                 <button className="button is-small is-danger is-outlined" onClick={deleteSelectedSeed}>Delete</button>
                             </div>
                         </div>
-                        <div className={`seed-sheet-backdrop ${showSeedBar ? "is-open" : ""}`} onClick={() => setShowSeedBar(false)} />
-                        <div className={`seed-sheet ${showSeedBar ? "is-open" : ""}`}>
+                        <div
+                            className={`seed-sheet-backdrop ${showSeedBar ? "is-open" : ""}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowSeedBar(false);
+                            }}
+                        />
+                        <div
+                            className={`seed-sheet ${showSeedBar ? "is-open" : ""}`}
+                            onClick={(e) => e.stopPropagation()}
+                        >
                             <div className="seed-sheet-header">
                                 <div className="seed-sheet-handle" />
                                 <div className="is-flex is-justify-content-space-between is-align-items-center">
                                     <strong className="has-text-white">Seeds</strong>
-                                    <button className="button is-small is-dark is-outlined" onClick={() => setShowSeedBar(false)}>Close</button>
+                                    <button
+                                        className="button is-small is-dark is-outlined"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            setShowSeedBar(false);
+                                        }}
+                                    >
+                                        Close
+                                    </button>
                                 </div>
                             </div>
                             <div className="seed-sheet-body">
