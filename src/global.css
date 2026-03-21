@@ -94,6 +94,11 @@ html {
     min-width: 170px;
 }
 
+.seed-sheet-backdrop,
+.seed-sheet {
+    display: none;
+}
+
 /* App Config */
 .app-config {
     display: flex;
@@ -336,32 +341,87 @@ html {
 
     .seed-toolbar {
         display: none;
-        padding-top: 0;
     }
 
-    .seed-toolbar.is-open {
+    .seed-sheet-backdrop {
         display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 10, 10, 0.45);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 1001;
     }
 
-    .seed-toolbar-scroll {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 0.25rem;
+    .seed-sheet-backdrop.is-open {
+        opacity: 1;
+        pointer-events: auto;
     }
 
-    .seed-toolbar-scroll > * {
-        flex: 0 0 auto;
+    .seed-sheet {
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #1f1f1f;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.35);
+        transform: translateY(105%);
+        transition: transform 0.22s ease;
+        z-index: 1002;
+        padding: 0.5rem 0.75rem 1rem;
+    }
+
+    .seed-sheet.is-open {
+        transform: translateY(0);
+    }
+
+    .seed-sheet-header {
+        padding: 0.15rem 0 0.5rem;
+    }
+
+    .seed-sheet-handle {
+        width: 42px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.3);
+        margin: 0 auto 0.65rem;
+    }
+
+    .seed-sheet-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .seed-sheet-input,
+    .seed-sheet-select select {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+    }
+
+    .seed-sheet-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
     }
 
     .seed-name-input {
-        width: 160px;
-        min-width: 160px;
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+    }
+
+    .seed-select-wrap {
+        width: 100%;
     }
 
     .seed-select-wrap select {
-        width: 180px;
-        min-width: 180px;
+        width: 100%;
+        min-width: 0;
     }
 }

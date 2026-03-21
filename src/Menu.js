@@ -294,6 +294,43 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                                 <button className="button is-small is-danger is-outlined" onClick={deleteSelectedSeed}>Delete</button>
                             </div>
                         </div>
+                        <div className={`seed-sheet-backdrop ${showSeedBar ? "is-open" : ""}`} onClick={() => setShowSeedBar(false)} />
+                        <div className={`seed-sheet ${showSeedBar ? "is-open" : ""}`}>
+                            <div className="seed-sheet-header">
+                                <div className="seed-sheet-handle" />
+                                <div className="is-flex is-justify-content-space-between is-align-items-center">
+                                    <strong className="has-text-white">Seeds</strong>
+                                    <button className="button is-small is-dark is-outlined" onClick={() => setShowSeedBar(false)}>Close</button>
+                                </div>
+                            </div>
+                            <div className="seed-sheet-body">
+                                <input
+                                    className="input is-small seed-name-input seed-sheet-input"
+                                    type="text"
+                                    placeholder="Seed name"
+                                    value={seedName}
+                                    onChange={(e) => setSeedName(e.target.value)}
+                                />
+                                <button className="button is-small is-link is-outlined" onClick={saveCurrentSeed}>Save Seed</button>
+                                <div className="select is-small seed-select-wrap seed-sheet-select">
+                                    <select value={selectedSeedId} onChange={(e) => {
+                                        setSelectedSeedId(e.target.value);
+                                        setActiveSeedIdStorage(e.target.value);
+                                    }}>
+                                        <option value="">Saved seeds ({savedSeeds.length})</option>
+                                        {savedSeeds.map(seed => (
+                                            <option key={seed.id} value={seed.id}>{seed.id === selectedSeedId ? `★ ${seed.name}` : seed.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="seed-sheet-actions">
+                                    <button className="button is-small is-info is-outlined" onClick={loadSelectedSeed}>Load</button>
+                                    <button className="button is-small is-warning is-outlined" onClick={overwriteSelectedSeed}>Overwrite</button>
+                                    <button className="button is-small is-link is-outlined" onClick={renameSelectedSeed}>Rename</button>
+                                    <button className="button is-small is-danger is-outlined" onClick={deleteSelectedSeed}>Delete</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     :
                     <div className="nav-bottom-right nav-right">
