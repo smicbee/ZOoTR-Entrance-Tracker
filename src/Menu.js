@@ -55,6 +55,23 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
         }
     });
 
+    useEffect(() => {
+        if (!selectedSeedId) {
+            return;
+        }
+        const store = getSeedStore();
+        const index = store.seeds.findIndex(s => s.id === selectedSeedId);
+        if (index === -1) {
+            return;
+        }
+        store.seeds[index] = {
+            ...store.seeds[index],
+            updatedAt: new Date().toISOString(),
+            state: props.currentState
+        };
+        saveSeedStore(store);
+    }, [selectedSeedId, props.currentState]);
+
     useLayoutEffect(() => {
         handleResize();
     });

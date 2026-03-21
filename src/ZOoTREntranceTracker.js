@@ -743,6 +743,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 resetState={resetState}
                 exportState={exportState}
                 importState={applyState}
+                currentState={exportState()}
                 trackGaEvent={trackGaEvent}
             />
 
