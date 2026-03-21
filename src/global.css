@@ -78,6 +78,19 @@ html {
     background: rgba(255, 255, 255, 0.08) !important;
 }
 
+.nav-main-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    padding: 0.2rem 0.5rem 0;
+}
+
+.nav-main-actions .nav-bottom-item,
+.nav-main-actions .button {
+    margin: 0 !important;
+}
+
 .seed-bar-toggle:hover,
 .seed-bar-toggle:focus {
     color: #ffffff !important;
@@ -258,6 +271,9 @@ html {
 
 .tracker-modal-close {
     min-width: 36px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     font-size: 1rem;
     font-weight: 700;
 }
@@ -534,6 +550,15 @@ html {
 
     .seed-sheet-header {
         padding: 0.15rem 0 0.5rem;
+    }
+
+    .seed-sheet-close {
+        min-width: 36px;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        font-size: 1rem;
+        font-weight: 700;
     }
 
     .seed-sheet-handle {

@@ -261,9 +261,6 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                             <a href="#vanilla-hyrule" className="nav-bottom-item has-text-light" onClick={setVanillaHyrule}>
                                 Vanilla Hyrule
                             </a>
-                            <a href="#vanilla-overworld" className="nav-bottom-item has-text-light" onClick={setVanillaOverworld}>
-                                Vanilla Overworld
-                            </a>
                             <a href="#reset" className="nav-bottom-item has-text-light" onClick={resetState}>
                                 Reset
                             </a>
@@ -332,14 +329,15 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                                 <div className="is-flex is-justify-content-space-between is-align-items-center">
                                     <strong className="has-text-white">Seeds</strong>
                                     <button
-                                        className="button is-small is-dark is-outlined"
+                                        className="button is-small is-dark is-outlined seed-sheet-close"
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
                                             setShowSeedBar(false);
                                         }}
+                                        aria-label="Close seeds"
                                     >
-                                        Close
+                                        ✕
                                     </button>
                                 </div>
                             </div>
