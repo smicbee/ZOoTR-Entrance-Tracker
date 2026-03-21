@@ -218,6 +218,71 @@ html {
     line-height: 1.2;
 }
 
+.tracker-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.tracker-modal-card {
+    width: min(720px, 100%);
+    max-height: min(85vh, 900px);
+    background: #1f1f1f;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+}
+
+.tracker-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1rem 0.75rem;
+    background: #2a2a2a;
+}
+
+.tracker-modal-title {
+    margin-bottom: 0.2rem !important;
+}
+
+.tracker-modal-subtitle {
+    color: #9ad1ff;
+    font-size: 0.95rem;
+}
+
+.tracker-modal-content {
+    padding: 1rem;
+    max-height: calc(85vh - 88px);
+    overflow: auto;
+    background: #f7f5ef;
+}
+
+@media screen and (max-width: 768px) {
+    .tracker-modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .tracker-modal-card {
+        width: 100%;
+        max-height: 88vh;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 18px;
+        border-top-right-radius: 18px;
+    }
+
+    .tracker-modal-content {
+        max-height: calc(88vh - 88px);
+    }
+}
+
 .selected-location {
     align-items: center;
 }

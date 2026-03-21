@@ -13,6 +13,7 @@ import Songs from "./Songs";
 import Menu from "./Menu";
 import Area from "./Area";
 import TrackerPanel from "./TrackerPanel";
+import TrackerRegionModal from "./TrackerRegionModal";
 import getInitialLocationChecks from "./Functions/getInitialLocationChecks";
 
 export default function ZOoTREntranceTracker({ ReactGA }) {
@@ -38,6 +39,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const [showTracker, setShowTracker] = useLocalStorage("showTracker", false);
     const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks());
     const [trackerFocusRegion, setTrackerFocusRegion] = useState(null);
+    const [trackerModalRegion, setTrackerModalRegion] = useState(null);
 
     // state for app layout, reset on page load
     const [menuHeight, setMenuHeight] = useState(0);
@@ -198,6 +200,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         const region = getTrackerRegionForArea(areaName);
         setShowTracker(true);
         setTrackerFocusRegion(region);
+        setTrackerModalRegion(region);
     };
 
     const setPropertiesOfEntrance = (_hyrule, area, entrance, obj) => {
@@ -880,6 +883,14 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 :
                 ""
             }
+
+            <TrackerRegionModal
+                region={trackerModalRegion}
+                isOpen={!!trackerModalRegion}
+                onClose={() => setTrackerModalRegion(null)}
+                locationChecks={locationChecks}
+                toggleLocationCheck={toggleLocationCheck}
+            />
 
             <div className="user-prompts">
                 {locationsToPromptFor.length > 0 &&
