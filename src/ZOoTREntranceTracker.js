@@ -1,6 +1,8 @@
 import PromptForLocationEntrance from "./PromptForLocationEntrance";
 import InteriorConnection from "./DataObjects/InteriorConnection";
 import OverworldAreas from "./DataObjects/OverworldAreas";
+import HyruleData from "./DataObjects/Hyrule";
+import LocationTrackerData from "./DataObjects/LocationTrackerData";
 import getInitialState from "./Functions/getInitialState";
 import React, { useState, useLayoutEffect } from "react";
 import EntranceTypes from "./DataObjects/EntranceTypes";
@@ -14,11 +16,19 @@ import Menu from "./Menu";
 import Area from "./Area";
 import TrackerPanel from "./TrackerPanel";
 import TrackerRegionModal from "./TrackerRegionModal";
+import AdminModal from "./AdminModal";
 import getInitialLocationChecks from "./Functions/getInitialLocationChecks";
 
 export default function ZOoTREntranceTracker({ ReactGA }) {
 
-    let init = getInitialState();
+    const defaultTrackerConfig = {
+        hyrule: JSON.parse(JSON.stringify(HyruleData)),
+        locationTrackerData: JSON.parse(JSON.stringify(LocationTrackerData))
+    };
+    const [trackerConfig, setTrackerConfig] = useLocalStorage("trackerConfig", defaultTrackerConfig);
+    const [showAdmin, setShowAdmin] = useState(false);
+
+    let init = getInitialState(trackerConfig.hyrule);
 
     // state tracked in localStorage
     const [availableOverworldEntrances, setAvailableOverworldEntrances] = useLocalStorage("availableOverworldEntrances", init.availableOverworldEntrances);
@@ -37,8 +47,8 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const [hyrule, setHyrule] = useLocalStorage("hyrule", init.hyrule);
     const [songs, setSongs] = useLocalStorage("songs", init.songs);
     const [showTracker, setShowTracker] = useLocalStorage("showTracker", false);
-    const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks());
-    const [trackerFocusRegion, setTrackerFocusRegion] = useState(null);
+    const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks(trackerConfig.locationTrackerData));
+    const [trackerFocusRegion] = useState(null);
     const [trackerModalRegion, setTrackerModalRegion] = useState(null);
 
     // state for app layout, reset on page load
@@ -119,8 +129,8 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         return prompts;
     };
 
-    const applyState = (state) => {
-        let initialState = getInitialState();
+    const applyState = (state, config = trackerConfig) => {
+        let initialState = getInitialState(config.hyrule);
         let stateToApply = state || initialState;
 
         setHyrule(stateToApply.hyrule || initialState.hyrule);
@@ -139,7 +149,12 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         setRouteFinderEnd(stateToApply.routeFinderEnd !== undefined ? stateToApply.routeFinderEnd : initialState.routeFinderEnd);
         setAllOverworldEntrances(stateToApply.allOverworldEntrances || initialState.allOverworldEntrances);
         setShowTracker(stateToApply.showTracker !== undefined ? stateToApply.showTracker : false);
-        setLocationChecks({ ...getInitialLocationChecks(), ...(stateToApply.locationChecks || {}) });
+        setLocationChecks({ ...getInitialLocationChecks(config.locationTrackerData), ...(stateToApply.locationChecks || {}) });
+    };
+
+    const saveTrackerConfig = (nextConfig) => {
+        setTrackerConfig(nextConfig);
+        applyState({ ...getInitialState(nextConfig.hyrule), locationChecks: getInitialLocationChecks(nextConfig.locationTrackerData), showTracker: false }, nextConfig);
     };
 
     const exportState = () => ({
@@ -163,7 +178,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     });
 
     const resetState = () => {
-        applyState({ ...getInitialState(), locationChecks: getInitialLocationChecks(), showTracker: false });
+        applyState({ ...getInitialState(trackerConfig.hyrule), locationChecks: getInitialLocationChecks(trackerConfig.locationTrackerData), showTracker: false });
     };
 
     const trackerRegionMap = {
@@ -180,7 +195,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const getTrackerCountsForArea = (areaName) => {
         const region = getTrackerRegionForArea(areaName);
         const regionChecks = locationChecks[region] || {};
-        const entries = Object.keys(regionChecks);
+        const entries = (trackerConfig.locationTrackerData[region] || []).map(item => item.name);
         const checked = entries.filter(key => regionChecks[key]).length;
         return { region, checked, total: entries.length };
     };
@@ -743,6 +758,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 importState={applyState}
                 currentState={exportState()}
                 trackGaEvent={trackGaEvent}
+                openAdmin={() => setShowAdmin(true)}
             />
 
             <div className="top-padding" style={{ height: menuHeight }} />
@@ -878,6 +894,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                     locationChecks={locationChecks}
                     toggleLocationCheck={toggleLocationCheck}
                     focusRegion={trackerFocusRegion}
+                    locationTrackerData={trackerConfig.locationTrackerData}
                 />
                 :
                 ""
@@ -889,6 +906,13 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 onClose={() => setTrackerModalRegion(null)}
                 locationChecks={locationChecks}
                 toggleLocationCheck={toggleLocationCheck}
+            />
+
+            <AdminModal
+                isOpen={showAdmin}
+                onClose={() => setShowAdmin(false)}
+                trackerConfig={trackerConfig}
+                onSaveConfig={saveTrackerConfig}
             />
 
             <div className="user-prompts">

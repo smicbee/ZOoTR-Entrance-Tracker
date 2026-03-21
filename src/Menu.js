@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
-import VanillaOverworld from "./DataObjects/VanillaOverworld";
 import VanillaHyrule from "./DataObjects/VanillaHyrule";
 
 const SeedStorageKey = "zootr-entrance-tracker-seeds-v1";
@@ -37,7 +36,7 @@ const setActiveSeedIdStorage = (seedId) => {
     }
 };
 
-export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...props }) {
+export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, openAdmin, ...props }) {
 
     const [message, setMessage] = useState("");
     const [currentMenuHeight, setCurrentMenuHeight] = useState(0);
@@ -238,15 +237,6 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
         trackGaEvent("menu", "set vanilla hyrule");
     };
 
-    const setVanillaOverworld = () => {
-        if (!window.confirm("Are you sure? This will remove all current settings.")) {
-            return;
-        }
-        setAppState(VanillaOverworld);
-        setMessage("Vanilla Overworld loaded");
-        trackGaEvent("menu", "set vanilla overworld");
-    };
-
     return (
         <div ref={menuRef} className="navbar is-fixed-top is-dark">
             <div style={{ width: "100%", maxWidth: "1000px", margin: "auto" }}>
@@ -274,6 +264,17 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                                 }}
                             >
                                 {showSeedBar ? "Hide Seeds" : `Seeds (${savedSeeds.length})`}
+                            </button>
+                            <button
+                                type="button"
+                                className="button is-small is-dark is-outlined"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    openAdmin();
+                                }}
+                            >
+                                Admin
                             </button>
                             <a
                                 href="https://github.com/brakkum/ZOoTR-Entrance-Tracker"

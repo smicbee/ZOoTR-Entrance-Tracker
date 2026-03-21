@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import LocationTrackerData from "./DataObjects/LocationTrackerData";
 
-export default function TrackerPanel({ locationChecks, toggleLocationCheck, focusRegion }) {
+export default function TrackerPanel({ locationChecks, toggleLocationCheck, focusRegion, locationTrackerData }) {
     const sectionRefs = useRef({});
-    const regions = useMemo(() => Object.keys(LocationTrackerData), []);
+    const regions = useMemo(() => Object.keys(locationTrackerData || {}), [locationTrackerData]);
 
     useEffect(() => {
         if (!focusRegion) return;
@@ -19,7 +18,7 @@ export default function TrackerPanel({ locationChecks, toggleLocationCheck, focu
                 <h2 className="title is-4 has-text-centered">Tracker</h2>
                 <div className="tracker-region-grid">
                     {regions.map(region => {
-                        const items = LocationTrackerData[region] || [];
+                        const items = locationTrackerData[region] || [];
                         const checks = locationChecks[region] || {};
                         const checked = items.filter(item => checks[item.name]).length;
                         return (

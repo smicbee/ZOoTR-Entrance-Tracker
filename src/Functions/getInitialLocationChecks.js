@@ -1,10 +1,10 @@
 import LocationTrackerData from "../DataObjects/LocationTrackerData";
 
-export default function getInitialLocationChecks() {
+export default function getInitialLocationChecks(locationTrackerData = LocationTrackerData) {
     const checks = {};
-    Object.keys(LocationTrackerData).forEach(region => {
+    Object.keys(locationTrackerData).forEach(region => {
         checks[region] = {};
-        (LocationTrackerData[region] || []).forEach(item => {
+        (locationTrackerData[region] || []).forEach(item => {
             checks[region][item.name] = !!item.defaultChecked;
         });
     });

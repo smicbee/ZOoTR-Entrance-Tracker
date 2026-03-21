@@ -2,8 +2,8 @@ import Hyrule from "../DataObjects/Hyrule";
 import Songs from "../DataObjects/Songs";
 import EntranceTypes from "../DataObjects/EntranceTypes";
 
-export default function getInitialState() {
-    let hyrule = JSON.parse(JSON.stringify(Hyrule)); // master world state
+export default function getInitialState(hyruleSource = Hyrule) {
+    let hyrule = JSON.parse(JSON.stringify(hyruleSource)); // master world state
     let interiorEntrances = {}; // area/interior keys access array of location objects
     let availableOverworldEntrances = {}; // available entrances of type Overworld
     let availableDungeons = []; // dungeons not yet assigned to dungeon entrance

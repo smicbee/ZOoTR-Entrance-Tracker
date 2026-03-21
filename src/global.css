@@ -285,6 +285,28 @@ html {
     background: #f7f5ef;
 }
 
+.admin-modal-card {
+    width: min(980px, 100%);
+}
+
+.admin-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.admin-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.admin-login-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
 @media screen and (max-width: 768px) {
     .tracker-modal-overlay {
         align-items: flex-end;
