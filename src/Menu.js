@@ -44,6 +44,7 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
     const [seedName, setSeedName] = useState("");
     const [savedSeeds, setSavedSeeds] = useState(() => getSeedStore().seeds);
     const [selectedSeedId, setSelectedSeedId] = useState(() => getActiveSeedId());
+    const [showSeedBar, setShowSeedBar] = useState(false);
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -239,7 +240,7 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                 </nav>
                 {message === "" ?
                     <div className="has-background-dark nav-bottom" style={{ flexDirection: "column", alignItems: "stretch" }}>
-                        <div className="nav-bottom-left">
+                        <div className="nav-bottom-left nav-main-actions">
                             <a href="#vanilla-hyrule" className="nav-bottom-item has-text-light" onClick={setVanillaHyrule}>
                                 Vanilla Hyrule
                             </a>
@@ -249,6 +250,13 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                             <a href="#reset" className="nav-bottom-item has-text-light" onClick={resetState}>
                                 Reset
                             </a>
+                            <button
+                                type="button"
+                                className="button is-small is-dark is-outlined seed-bar-toggle"
+                                onClick={() => setShowSeedBar(!showSeedBar)}
+                            >
+                                {showSeedBar ? "Hide Seeds" : `Seeds (${savedSeeds.length})`}
+                            </button>
                             <a
                                 href="https://github.com/brakkum/ZOoTR-Entrance-Tracker"
                                 className="nav-bottom-item has-text-grey-light"
@@ -259,31 +267,32 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                                 GitHub
                             </a>
                         </div>
-                        <div className="is-flex is-align-items-center is-flex-wrap-wrap" style={{ gap: "0.35rem", padding: "0.35rem 0.75rem 0.5rem" }}>
-                            <input
-                                className="input is-small"
-                                style={{ maxWidth: "220px" }}
-                                type="text"
-                                placeholder="Seed name"
-                                value={seedName}
-                                onChange={(e) => setSeedName(e.target.value)}
-                            />
-                            <button className="button is-small is-link is-outlined" onClick={saveCurrentSeed}>Save Seed</button>
-                            <div className="select is-small">
-                                <select value={selectedSeedId} onChange={(e) => {
-                                    setSelectedSeedId(e.target.value);
-                                    setActiveSeedIdStorage(e.target.value);
-                                }}>
-                                    <option value="">Saved seeds ({savedSeeds.length})</option>
-                                    {savedSeeds.map(seed => (
-                                        <option key={seed.id} value={seed.id}>{seed.id === selectedSeedId ? `★ ${seed.name}` : seed.name}</option>
-                                    ))}
-                                </select>
+                        <div className={`seed-toolbar ${showSeedBar ? "is-open" : ""}`}>
+                            <div className="seed-toolbar-scroll">
+                                <input
+                                    className="input is-small seed-name-input"
+                                    type="text"
+                                    placeholder="Seed name"
+                                    value={seedName}
+                                    onChange={(e) => setSeedName(e.target.value)}
+                                />
+                                <button className="button is-small is-link is-outlined" onClick={saveCurrentSeed}>Save Seed</button>
+                                <div className="select is-small seed-select-wrap">
+                                    <select value={selectedSeedId} onChange={(e) => {
+                                        setSelectedSeedId(e.target.value);
+                                        setActiveSeedIdStorage(e.target.value);
+                                    }}>
+                                        <option value="">Saved seeds ({savedSeeds.length})</option>
+                                        {savedSeeds.map(seed => (
+                                            <option key={seed.id} value={seed.id}>{seed.id === selectedSeedId ? `★ ${seed.name}` : seed.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <button className="button is-small is-info is-outlined" onClick={loadSelectedSeed}>Load</button>
+                                <button className="button is-small is-warning is-outlined" onClick={overwriteSelectedSeed}>Overwrite</button>
+                                <button className="button is-small is-link is-outlined" onClick={renameSelectedSeed}>Rename</button>
+                                <button className="button is-small is-danger is-outlined" onClick={deleteSelectedSeed}>Delete</button>
                             </div>
-                            <button className="button is-small is-info is-outlined" onClick={loadSelectedSeed}>Load</button>
-                            <button className="button is-small is-warning is-outlined" onClick={overwriteSelectedSeed}>Overwrite</button>
-                            <button className="button is-small is-link is-outlined" onClick={renameSelectedSeed}>Rename</button>
-                            <button className="button is-small is-danger is-outlined" onClick={deleteSelectedSeed}>Delete</button>
                         </div>
                     </div>
                     :

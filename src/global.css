@@ -70,6 +70,30 @@ html {
 
 } */
 
+.seed-bar-toggle {
+    display: none;
+    margin: 6px;
+}
+
+.seed-toolbar {
+    padding: 0.35rem 0.75rem 0.5rem;
+}
+
+.seed-toolbar-scroll {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.seed-name-input {
+    max-width: 220px;
+}
+
+.seed-select-wrap select {
+    min-width: 170px;
+}
+
 /* App Config */
 .app-config {
     display: flex;
@@ -298,4 +322,46 @@ html {
 /* Helpers */
 .flex-wraps {
     flex-wrap: wrap;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-bottom-left {
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .seed-bar-toggle {
+        display: inline-flex;
+    }
+
+    .seed-toolbar {
+        display: none;
+        padding-top: 0;
+    }
+
+    .seed-toolbar.is-open {
+        display: block;
+    }
+
+    .seed-toolbar-scroll {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.25rem;
+    }
+
+    .seed-toolbar-scroll > * {
+        flex: 0 0 auto;
+    }
+
+    .seed-name-input {
+        width: 160px;
+        min-width: 160px;
+    }
+
+    .seed-select-wrap select {
+        width: 180px;
+        min-width: 180px;
+    }
 }
