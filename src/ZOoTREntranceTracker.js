@@ -112,24 +112,47 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         return prompts;
     };
 
-    const resetState = () => {
+    const applyState = (state) => {
         let initialState = getInitialState();
+        let stateToApply = state || initialState;
 
-        setHyrule(initialState.hyrule);
-        setInteriorEntrances(initialState.interiorEntrances);
-        setAvailableOverworldEntrances(initialState.availableOverworldEntrances);
-        setAvailableDungeons(initialState.availableDungeons);
-        setAvailableHouses(initialState.availableHouses);
-        setAvailableHouseEntrances(initialState.availableHouseEntrances);
-        setAvailableGrottos(initialState.availableGrottos);
-        setAvailableGrottoEntrances(initialState.availableGrottoEntrances);
-        setSongs(initialState.songs);
-        setShowRouteFinder(initialState.showRouteFinder);
-        setStartAsChild(initialState.startAsChild);
-        setOverworldOnly(initialState.overworldOnly);
-        setRouteFinderStart(initialState.routeFinderStart);
-        setRouteFinderEnd(initialState.routeFinderEnd);
-        setAllOverworldEntrances(initialState.allOverworldEntrances)
+        setHyrule(stateToApply.hyrule || initialState.hyrule);
+        setInteriorEntrances(stateToApply.interiorEntrances || initialState.interiorEntrances);
+        setAvailableOverworldEntrances(stateToApply.availableOverworldEntrances || initialState.availableOverworldEntrances);
+        setAvailableDungeons(stateToApply.availableDungeons || initialState.availableDungeons);
+        setAvailableHouses(stateToApply.availableHouses || initialState.availableHouses);
+        setAvailableHouseEntrances(stateToApply.availableHouseEntrances || initialState.availableHouseEntrances);
+        setAvailableGrottos(stateToApply.availableGrottos || initialState.availableGrottos);
+        setAvailableGrottoEntrances(stateToApply.availableGrottoEntrances || initialState.availableGrottoEntrances);
+        setSongs(stateToApply.songs || initialState.songs);
+        setShowRouteFinder(stateToApply.showRouteFinder !== undefined ? stateToApply.showRouteFinder : initialState.showRouteFinder);
+        setStartAsChild(stateToApply.startAsChild !== undefined ? stateToApply.startAsChild : initialState.startAsChild);
+        setOverworldOnly(stateToApply.overworldOnly !== undefined ? stateToApply.overworldOnly : initialState.overworldOnly);
+        setRouteFinderStart(stateToApply.routeFinderStart !== undefined ? stateToApply.routeFinderStart : initialState.routeFinderStart);
+        setRouteFinderEnd(stateToApply.routeFinderEnd !== undefined ? stateToApply.routeFinderEnd : initialState.routeFinderEnd);
+        setAllOverworldEntrances(stateToApply.allOverworldEntrances || initialState.allOverworldEntrances);
+    };
+
+    const exportState = () => ({
+        availableOverworldEntrances,
+        availableGrottoEntrances,
+        availableHouseEntrances,
+        allOverworldEntrances,
+        availableDungeons,
+        interiorEntrances,
+        availableGrottos,
+        routeFinderStart,
+        availableHouses,
+        showRouteFinder,
+        routeFinderEnd,
+        overworldOnly,
+        startAsChild,
+        hyrule,
+        songs
+    });
+
+    const resetState = () => {
+        applyState(getInitialState());
     };
 
     const setPropertiesOfEntrance = (_hyrule, area, entrance, obj) => {
@@ -670,6 +693,8 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
             <Menu
                 setMenuHeight={setMenuHeight}
                 resetState={resetState}
+                exportState={exportState}
+                importState={applyState}
                 trackGaEvent={trackGaEvent}
             />
 

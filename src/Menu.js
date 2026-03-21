@@ -2,10 +2,48 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import VanillaOverworld from "./DataObjects/VanillaOverworld";
 import VanillaHyrule from "./DataObjects/VanillaHyrule";
 
+const SeedStorageKey = "zootr-entrance-tracker-seeds-v1";
+const ActiveSeedStorageKey = "zootr-entrance-tracker-active-seed-v1";
+
+const getSeedStore = () => {
+    try {
+        const json = window.localStorage.getItem(SeedStorageKey);
+        if (!json) {
+            return { seeds: [] };
+        }
+        const parsed = JSON.parse(json);
+        if (!parsed || !Array.isArray(parsed.seeds)) {
+            return { seeds: [] };
+        }
+        return parsed;
+    } catch (e) {
+        return { seeds: [] };
+    }
+};
+
+const saveSeedStore = (store) => {
+    window.localStorage.setItem(SeedStorageKey, JSON.stringify(store));
+};
+
+const getActiveSeedId = () => {
+    return window.localStorage.getItem(ActiveSeedStorageKey) || "";
+};
+
+const setActiveSeedIdStorage = (seedId) => {
+    if (seedId) {
+        window.localStorage.setItem(ActiveSeedStorageKey, seedId);
+    } else {
+        window.localStorage.removeItem(ActiveSeedStorageKey);
+    }
+};
+
 export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...props }) {
 
     const [message, setMessage] = useState("");
     const [currentMenuHeight, setCurrentMenuHeight] = useState(0);
+    const [seedName, setSeedName] = useState("");
+    const [savedSeeds, setSavedSeeds] = useState(() => getSeedStore().seeds);
+    const [selectedSeedId, setSelectedSeedId] = useState(() => getActiveSeedId());
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -27,6 +65,15 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
         }
     };
 
+    const refreshSeeds = () => {
+        const seeds = getSeedStore().seeds;
+        setSavedSeeds(seeds);
+        if (selectedSeedId && !seeds.some(seed => seed.id === selectedSeedId)) {
+            setSelectedSeedId("");
+            setActiveSeedIdStorage("");
+        }
+    };
+
     const resetState = () => {
         if (!window.confirm("Are you sure you want to reset?")) {
             return;
@@ -36,9 +83,132 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
         trackGaEvent("menu", "reset app state")
     };
 
+    const saveCurrentSeed = () => {
+        const trimmedName = seedName.trim();
+        if (!trimmedName) {
+            setMessage("Enter seed name first");
+            return;
+        }
+        const state = props.exportState();
+        const store = getSeedStore();
+        const newSeed = {
+            id: `${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+            name: trimmedName,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            state
+        };
+        store.seeds = [newSeed, ...store.seeds];
+        saveSeedStore(store);
+        setSeedName("");
+        setSelectedSeedId(newSeed.id);
+        setActiveSeedIdStorage(newSeed.id);
+        refreshSeeds();
+        setMessage("Seed saved");
+        trackGaEvent("menu", "save seed state");
+    };
+
+    const overwriteSelectedSeed = () => {
+        if (!selectedSeedId) {
+            setMessage("Select a seed to overwrite");
+            return;
+        }
+        const store = getSeedStore();
+        const index = store.seeds.findIndex(s => s.id === selectedSeedId);
+        if (index === -1) {
+            setMessage("Seed not found");
+            refreshSeeds();
+            return;
+        }
+        if (!window.confirm(`Overwrite seed "${store.seeds[index].name}"?`)) {
+            return;
+        }
+        store.seeds[index] = {
+            ...store.seeds[index],
+            updatedAt: new Date().toISOString(),
+            state: props.exportState()
+        };
+        saveSeedStore(store);
+        setActiveSeedIdStorage(selectedSeedId);
+        refreshSeeds();
+        setMessage("Seed overwritten");
+        trackGaEvent("menu", "overwrite seed state");
+    };
+
+    const renameSelectedSeed = () => {
+        if (!selectedSeedId) {
+            setMessage("Select a seed to rename");
+            return;
+        }
+        const trimmedName = seedName.trim();
+        if (!trimmedName) {
+            setMessage("Enter new seed name first");
+            return;
+        }
+        const store = getSeedStore();
+        const index = store.seeds.findIndex(s => s.id === selectedSeedId);
+        if (index === -1) {
+            setMessage("Seed not found");
+            refreshSeeds();
+            return;
+        }
+        store.seeds[index] = {
+            ...store.seeds[index],
+            name: trimmedName,
+            updatedAt: new Date().toISOString()
+        };
+        saveSeedStore(store);
+        setSeedName("");
+        setActiveSeedIdStorage(selectedSeedId);
+        refreshSeeds();
+        setMessage("Seed renamed");
+        trackGaEvent("menu", "rename seed state");
+    };
+
+    const loadSelectedSeed = () => {
+        if (!selectedSeedId) {
+            setMessage("Select a seed to load");
+            return;
+        }
+        const store = getSeedStore();
+        const seed = store.seeds.find(s => s.id === selectedSeedId);
+        if (!seed) {
+            setMessage("Seed not found");
+            refreshSeeds();
+            return;
+        }
+        props.importState(seed.state);
+        setSeedName(seed.name);
+        setActiveSeedIdStorage(seed.id);
+        setMessage(`Loaded: ${seed.name}`);
+        trackGaEvent("menu", "load seed state");
+    };
+
+    const deleteSelectedSeed = () => {
+        if (!selectedSeedId) {
+            setMessage("Select a seed to delete");
+            return;
+        }
+        const store = getSeedStore();
+        const seed = store.seeds.find(s => s.id === selectedSeedId);
+        if (!seed) {
+            refreshSeeds();
+            return;
+        }
+        if (!window.confirm(`Delete seed "${seed.name}"?`)) {
+            return;
+        }
+        store.seeds = store.seeds.filter(s => s.id !== selectedSeedId);
+        saveSeedStore(store);
+        setSelectedSeedId("");
+        setActiveSeedIdStorage("");
+        refreshSeeds();
+        setMessage("Seed deleted");
+        trackGaEvent("menu", "delete seed state");
+    };
+
     const setAppState = state => {
-        localStorage.setItem("zootr-entrance-tracker", JSON.stringify(state));
-        window.location.reload();
+        props.importState(state);
     };
 
     const setVanillaHyrule = () => {
@@ -46,6 +216,7 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
             return;
         }
         setAppState(VanillaHyrule);
+        setMessage("Vanilla Hyrule loaded");
         trackGaEvent("menu", "set vanilla hyrule");
     };
 
@@ -54,6 +225,7 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
             return;
         }
         setAppState(VanillaOverworld);
+        setMessage("Vanilla Overworld loaded");
         trackGaEvent("menu", "set vanilla overworld");
     };
 
@@ -66,7 +238,7 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                     </h1>
                 </nav>
                 {message === "" ?
-                    <div className="has-background-dark nav-bottom">
+                    <div className="has-background-dark nav-bottom" style={{ flexDirection: "column", alignItems: "stretch" }}>
                         <div className="nav-bottom-left">
                             <a href="#vanilla-hyrule" className="nav-bottom-item has-text-light" onClick={setVanillaHyrule}>
                                 Vanilla Hyrule
@@ -86,6 +258,32 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ...
                             >
                                 GitHub
                             </a>
+                        </div>
+                        <div className="is-flex is-align-items-center is-flex-wrap-wrap" style={{ gap: "0.35rem", padding: "0.35rem 0.75rem 0.5rem" }}>
+                            <input
+                                className="input is-small"
+                                style={{ maxWidth: "220px" }}
+                                type="text"
+                                placeholder="Seed name"
+                                value={seedName}
+                                onChange={(e) => setSeedName(e.target.value)}
+                            />
+                            <button className="button is-small is-link is-outlined" onClick={saveCurrentSeed}>Save Seed</button>
+                            <div className="select is-small">
+                                <select value={selectedSeedId} onChange={(e) => {
+                                    setSelectedSeedId(e.target.value);
+                                    setActiveSeedIdStorage(e.target.value);
+                                }}>
+                                    <option value="">Saved seeds ({savedSeeds.length})</option>
+                                    {savedSeeds.map(seed => (
+                                        <option key={seed.id} value={seed.id}>{seed.id === selectedSeedId ? `★ ${seed.name}` : seed.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <button className="button is-small is-info is-outlined" onClick={loadSelectedSeed}>Load</button>
+                            <button className="button is-small is-warning is-outlined" onClick={overwriteSelectedSeed}>Overwrite</button>
+                            <button className="button is-small is-link is-outlined" onClick={renameSelectedSeed}>Rename</button>
+                            <button className="button is-small is-danger is-outlined" onClick={deleteSelectedSeed}>Delete</button>
                         </div>
                     </div>
                     :
