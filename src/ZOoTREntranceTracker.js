@@ -12,6 +12,8 @@ import RouteFinder from "./RouteFinder";
 import Songs from "./Songs";
 import Menu from "./Menu";
 import Area from "./Area";
+import TrackerPanel from "./TrackerPanel";
+import getInitialLocationChecks from "./Functions/getInitialLocationChecks";
 
 export default function ZOoTREntranceTracker({ ReactGA }) {
 
@@ -33,6 +35,9 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const [startAsChild, setStartAsChild] = useLocalStorage("startAsChild", init.startAsChild);
     const [hyrule, setHyrule] = useLocalStorage("hyrule", init.hyrule);
     const [songs, setSongs] = useLocalStorage("songs", init.songs);
+    const [showTracker, setShowTracker] = useLocalStorage("showTracker", false);
+    const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks());
+    const [trackerFocusRegion, setTrackerFocusRegion] = useState(null);
 
     // state for app layout, reset on page load
     const [menuHeight, setMenuHeight] = useState(0);
@@ -131,6 +136,8 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         setRouteFinderStart(stateToApply.routeFinderStart !== undefined ? stateToApply.routeFinderStart : initialState.routeFinderStart);
         setRouteFinderEnd(stateToApply.routeFinderEnd !== undefined ? stateToApply.routeFinderEnd : initialState.routeFinderEnd);
         setAllOverworldEntrances(stateToApply.allOverworldEntrances || initialState.allOverworldEntrances);
+        setShowTracker(stateToApply.showTracker !== undefined ? stateToApply.showTracker : false);
+        setLocationChecks({ ...getInitialLocationChecks(), ...(stateToApply.locationChecks || {}) });
     };
 
     const exportState = () => ({
@@ -148,11 +155,49 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         overworldOnly,
         startAsChild,
         hyrule,
-        songs
+        songs,
+        showTracker,
+        locationChecks
     });
 
     const resetState = () => {
-        applyState(getInitialState());
+        applyState({ ...getInitialState(), locationChecks: getInitialLocationChecks(), showTracker: false });
+    };
+
+    const trackerRegionMap = {
+        "Hyrule/Ganon's Castle": "Hyrule Castle Grounds",
+        "Castle Town Entrance": "Market",
+        "Gerudo Fortress": "Gerudo's Fortress",
+        "Gerudo's Fortress": "Gerudo's Fortress",
+        "Zora River": "Zora's River",
+        "Zora's River": "Zora's River"
+    };
+
+    const getTrackerRegionForArea = (areaName) => trackerRegionMap[areaName] || areaName;
+
+    const getTrackerCountsForArea = (areaName) => {
+        const region = getTrackerRegionForArea(areaName);
+        const regionChecks = locationChecks[region] || {};
+        const entries = Object.keys(regionChecks);
+        const checked = entries.filter(key => regionChecks[key]).length;
+        return { region, checked, total: entries.length };
+    };
+
+    const toggleLocationCheck = (region, itemName) => {
+        const current = locationChecks[region] || {};
+        setLocationChecks({
+            ...locationChecks,
+            [region]: {
+                ...current,
+                [itemName]: !current[itemName]
+            }
+        });
+    };
+
+    const openTrackerForArea = (areaName) => {
+        const region = getTrackerRegionForArea(areaName);
+        setShowTracker(true);
+        setTrackerFocusRegion(region);
     };
 
     const setPropertiesOfEntrance = (_hyrule, area, entrance, obj) => {
@@ -758,6 +803,34 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                             </p>
                         </div>
                     </div>
+                    <div className="tracker-control config-control">
+                        <div className="field is-grouped">
+                            <p className="control">
+                                <a
+                                    href="#tracker"
+                                    className={"button is-outlined is-small " + (showTracker ? "is-link" : "is-dark")}
+                                    onClick={() => {
+                                        trackGaEvent("config", "show tracker");
+                                        setShowTracker(true);
+                                    }}
+                                >
+                                    Tracker
+                                </a>
+                            </p>
+                            <p className="control">
+                                <a
+                                    href="#tracker"
+                                    className={"button is-outlined is-small " + (!showTracker ? "is-link" : "is-dark")}
+                                    onClick={() => {
+                                        trackGaEvent("config", "hide tracker");
+                                        setShowTracker(false);
+                                    }}
+                                >
+                                    Hide Tracker
+                                </a>
+                            </p>
+                        </div>
+                    </div>
                     <div className="area-expansion-control config-control">
                         <div className="field is-grouped">
                             <p className="control">
@@ -798,6 +871,16 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 ""
             }
 
+            {showTracker ?
+                <TrackerPanel
+                    locationChecks={locationChecks}
+                    toggleLocationCheck={toggleLocationCheck}
+                    focusRegion={trackerFocusRegion}
+                />
+                :
+                ""
+            }
+
             <div className="user-prompts">
                 {locationsToPromptFor.length > 0 &&
                     locationsToPromptFor.map((location, i) => {
@@ -832,6 +915,8 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                         return null;
                     }
 
+                    const trackerCounts = getTrackerCountsForArea(areaName);
+
                     return <Area
                         key={i}
                         area={area}
@@ -847,6 +932,9 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                         overworldOnly={overworldOnly}
                         startAsChild={startAsChild}
                         toggleAreaExpanded={toggleAreaExpanded}
+                        trackerCount={trackerCounts.checked}
+                        trackerTotal={trackerCounts.total}
+                        openTrackerForArea={openTrackerForArea}
                     />
                 })}
             </div>

@@ -20,6 +20,8 @@ export default function Area({
     availableDungeons,
     availableOverworldEntrances,
     allOverworldEntrances,
+    trackerCount,
+    trackerTotal,
     ...props
 }) {
 
@@ -30,7 +32,21 @@ export default function Area({
             <div className="card-header area-card-header has-background-dark"
                 onClick={() => props.toggleAreaExpanded(areaName)}
             >
-                <h5 className="is-size-5 has-text-weight-semibold area-card-name">{areaName}</h5>
+                <h5 className="is-size-5 has-text-weight-semibold area-card-name">
+                    {areaName}
+                    {trackerTotal > 0 && (
+                        <button
+                            type="button"
+                            className="tracker-count-button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                props.openTrackerForArea(areaName);
+                            }}
+                        >
+                            ({trackerCount}/{trackerTotal})
+                        </button>
+                    )}
+                </h5>
                 <span
                     className="icon has-text-white"
                 >
