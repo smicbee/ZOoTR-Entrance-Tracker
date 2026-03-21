@@ -73,6 +73,16 @@ html {
 .seed-bar-toggle {
     display: none;
     margin: 6px;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.seed-bar-toggle:hover,
+.seed-bar-toggle:focus {
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.55) !important;
+    background: rgba(255, 255, 255, 0.16) !important;
 }
 
 .seed-toolbar {
