@@ -260,7 +260,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     });
 
     const resetState = () => {
-        applyState({ ...getInitialState(trackerConfig.hyrule), locationChecks: getInitialLocationChecks(normalizedLocationTrackerData), showTracker: false });
+        applyState({ ...getInitialState(trackerConfig.hyrule), locationChecks: getInitialLocationChecks(normalizedLocationTrackerData), showTracker: false, spawnPoints: { child: null, adult: null } });
     };
 
     const getTrackerRegionForArea = (areaName) => areaName;
