@@ -4,22 +4,12 @@ import EntranceTypes from "./DataObjects/EntranceTypes";
 import Entrance from "./Entrance";
 import React from "react";
 
-const returnUniqueItems = array => {
-    return array.filter((item, i) => {
-        return array.indexOf(item) === i;
-    });
-};
-
 export default function Area({
     overworldOnly,
     areaName,
     area,
-    state,
-    availableHouses,
-    availableGrottos,
-    availableDungeons,
-    availableOverworldEntrances,
-    allOverworldEntrances,
+    availableConfigEntrances,
+    allConfigEntrances,
     trackerCount,
     trackerTotal,
     ...props
@@ -78,19 +68,10 @@ export default function Area({
                         NavigableInteriors.includes(entrance.interior))) {
                         return null;
                     }
-                    // the type of entrance determines what
-                    // options are displayed to pick from
-                    let options = entrance.type === EntranceTypes.House ?
-                        returnUniqueItems(availableHouses)
-                        : entrance.type === EntranceTypes.Dungeon ?
-                            availableDungeons
-                            : entrance.type === EntranceTypes.Overworld ?
-                                availableOverworldEntrances
-                                : entrance.type === EntranceTypes.Grotto ?
-                                    returnUniqueItems(availableGrottos)
-                                    : entrance.type === EntranceTypes["Kaepora Gaebora"] ?
-                                        allOverworldEntrances
-                                        : []; // How did you get here??
+                    // all config entrance types are treated like area-to-area links.
+                    let options = entrance.type === EntranceTypes["Kaepora Gaebora"]
+                        ? allConfigEntrances
+                        : availableConfigEntrances;
 
                     // add to the correct column in area container
                     entrances.push(

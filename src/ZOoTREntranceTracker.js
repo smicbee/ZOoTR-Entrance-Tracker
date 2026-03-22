@@ -1,6 +1,5 @@
 import PromptForLocationEntrance from "./PromptForLocationEntrance";
 import InteriorConnection from "./DataObjects/InteriorConnection";
-import OverworldAreas from "./DataObjects/OverworldAreas";
 import HyruleData from "./DataObjects/Hyrule";
 import LocationTrackerData from "./DataObjects/LocationTrackerData";
 import getInitialState from "./Functions/getInitialState";
@@ -295,16 +294,14 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         setTrackerModalRegion(region);
     };
 
-    const getDerivedOverworldEntranceMap = (includeAssigned = false) => {
+    const getDerivedConfigEntranceMap = (includeAssigned = false) => {
         const map = {};
         Object.keys(hyrule || {}).forEach((area) => {
             map[area] = [];
             Object.keys(hyrule[area]?.entrances || {}).forEach((entranceName) => {
                 const entrance = hyrule[area].entrances[entranceName];
-                if (entrance.type !== EntranceTypes.Overworld) {
-                    return;
-                }
-                if (!includeAssigned && entrance.leadsTo !== null && entrance.leadsTo !== undefined) {
+                const isAssigned = (entrance.leadsTo !== null && entrance.leadsTo !== undefined) || (entrance.interior !== null && entrance.interior !== undefined);
+                if (!includeAssigned && isAssigned) {
                     return;
                 }
                 map[area].push(entranceName);
@@ -313,8 +310,8 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         return map;
     };
 
-    const derivedAvailableOverworldEntrances = getDerivedOverworldEntranceMap(false);
-    const derivedAllOverworldEntrances = getDerivedOverworldEntranceMap(true);
+    const derivedAvailableConfigEntrances = getDerivedConfigEntranceMap(false);
+    const derivedAllConfigEntrances = getDerivedConfigEntranceMap(true);
 
     const setPropertiesOfEntrance = (_hyrule, area, entrance, obj) => {
         let _area = _hyrule[area];
@@ -367,11 +364,6 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
             }
         });
         setHyrule({..._hyrule});
-    };
-
-    const setOverworldEntrance = (_hyrule, area, entrance, obj) => {
-        _hyrule = setPropertiesOfEntrance(_hyrule, area, entrance, { "leadsTo": obj });
-        return _hyrule;
     };
 
     const toggleSongCollected = song => {
@@ -467,20 +459,6 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         };
         _interiorEntrances = { ..._interiorEntrances, ..._locationsObj };
         return [_hyrule, _interiorEntrances, Object.keys(_locationsAndObjects)];
-    };
-
-    const toggleKaeporaLanding = (_hyrule, sourceArea, destinationArea) => {
-        if (sourceArea === OverworldAreas["Death Mountain Trail"]) {
-            _hyrule = setPropertiesOfArea(_hyrule, destinationArea, { "hasKaeporaDeathMountainTrailLanding": !hyrule[destinationArea].hasKaeporaDeathMountainTrailLanding });
-        } else if (sourceArea === OverworldAreas["Lake Hylia"]) {
-            _hyrule = setPropertiesOfArea(_hyrule, destinationArea, { "hasKaeporaLakeHyliaLanding": !hyrule[destinationArea].hasKaeporaLakeHyliaLanding });
-        }
-        return _hyrule;
-    };
-
-    const resetOverworldEntrance = (_hyrule, area, entrance) => {
-        _hyrule = setPropertiesOfEntrance(_hyrule, area, entrance, { "leadsTo": null });
-        return _hyrule;
     };
 
     const returnArrayForType = type => {
@@ -581,6 +559,49 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         addItemToObjectArray(area, EntranceTypes.Overworld, entrance);
     };
 
+    const syncLegacyPoolsForAreaEntrance = (sourceHyrule, area, entranceName, mode) => {
+        const entrance = sourceHyrule?.[area]?.entrances?.[entranceName];
+        if (!entrance) {
+            return;
+        }
+
+        const poolValue = entrance.display || entranceName;
+        const syncInteriorPool = mode === "remove" ? removeInteriorFromPool : addInteriorBackIntoPool;
+
+        if (entrance.type === EntranceTypes.Overworld) {
+            if (mode === "remove") {
+                removeAvailableOverworldEntrance(area, entranceName);
+            } else {
+                addAvailableOverworldEntrance(area, entranceName);
+            }
+            return;
+        }
+
+        if (entrance.type === EntranceTypes.House) {
+            syncInteriorPool(EntranceTypes.House, poolValue);
+            if (mode === "remove") {
+                removeAvailableHouseEntrance(area, entranceName);
+            } else {
+                addAvailableHouseEntrance(area, entranceName);
+            }
+            return;
+        }
+
+        if (entrance.type === EntranceTypes.Grotto) {
+            syncInteriorPool(EntranceTypes.Grotto, poolValue);
+            if (mode === "remove") {
+                removeAvailableGrottoEntrance(area, entranceName);
+            } else {
+                addAvailableGrottoEntrance(area, entranceName);
+            }
+            return;
+        }
+
+        if (entrance.type === EntranceTypes.Dungeon) {
+            syncInteriorPool(EntranceTypes.Dungeon, poolValue);
+        }
+    };
+
     const setInterior = (_hyrule, area, entrance, interior) => {
         _hyrule = setPropertiesOfEntrance(_hyrule, area, entrance, { "clear": false, "interior": interior });
         return _hyrule;
@@ -661,38 +682,50 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const setEntrance = (vanilla, selection) => {
         let _interiorEntrances = interiorEntrances;
         let _hyrule = hyrule;
+
+        if (selection.area !== undefined && selection.entrance !== undefined) {
+            const area = vanilla.area;
+            const entrance = vanilla.entrance;
+            const selectedArea = selection.area;
+            const selectedEntrance = selection.entrance;
+
+            _hyrule = setPropertiesOfEntrance(_hyrule, area, entrance, {
+                clear: false,
+                interior: null,
+                leadsTo: { area: selectedArea, entrance: selectedEntrance }
+            });
+            _hyrule = setPropertiesOfEntrance(_hyrule, selectedArea, selectedEntrance, {
+                clear: false,
+                interior: null,
+                leadsTo: { area, entrance }
+            });
+
+            removeAvailableOverworldEntrance(area, entrance);
+            removeAvailableOverworldEntrance(selectedArea, selectedEntrance);
+
+            [_hyrule, _interiorEntrances] = addInteriorEntrance(
+                _hyrule,
+                _interiorEntrances,
+                {
+                    [area]: { area: selectedArea, entrance: selectedEntrance },
+                    [selectedArea]: { area, entrance }
+                }
+            );
+
+            [_hyrule, _interiorEntrances] = setAreaToAccessible(_hyrule, _interiorEntrances, area);
+            [_hyrule, _interiorEntrances] = setAreaToAccessible(_hyrule, _interiorEntrances, selectedArea);
+            trackGaEvent("tracker", `set area-to-area entrance (${vanilla.type})`);
+
+            setInteriorEntrances({ ..._interiorEntrances });
+            setHyrule({ ..._hyrule });
+            return;
+        }
+
         switch (vanilla.type) {
-            case EntranceTypes.Overworld: {
-                let area = vanilla.area;
-                let entrance = vanilla.entrance;
-                let selectedArea = selection.area;
-                let selectedEntrance = selection.entrance;
-
-                _hyrule = setOverworldEntrance(_hyrule, area, entrance, { area: selectedArea, entrance: selectedEntrance });
-                _hyrule = setOverworldEntrance(_hyrule, selectedArea, selectedEntrance, { area, entrance });
-
-                removeAvailableOverworldEntrance(area, entrance);
-                removeAvailableOverworldEntrance(selectedArea, selectedEntrance);
-
-                [_hyrule, _interiorEntrances] = addInteriorEntrance(
-                    _hyrule,
-                    _interiorEntrances,
-                    {
-                        [area]: { "area": selectedArea, "entrance": selectedEntrance },
-                        [selectedArea]: { "area": area, "entrance": entrance }
-                    }
-                );
-
-                [_hyrule, _interiorEntrances] = setAreaToAccessible(_hyrule, _interiorEntrances, area);
-                [_hyrule, _interiorEntrances] = setAreaToAccessible(_hyrule, _interiorEntrances, selectedArea);
-                trackGaEvent("tracker", "set overworld entrance");
-                break;
-            }
-            // grottos, houses, and dungeons all
-            // use the same 'interior' attribute
             case EntranceTypes.Grotto:
             case EntranceTypes.House:
-            case EntranceTypes.Dungeon: {
+            case EntranceTypes.Dungeon:
+            case EntranceTypes.Song: {
                 let area = vanilla.area;
                 let entrance = vanilla.entrance;
                 let interior = selection.interior;
@@ -720,27 +753,6 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 trackGaEvent("tracker", "set interior entrance");
                 break;
             }
-            case EntranceTypes["Kaepora Gaebora"]: {
-                let area = vanilla.area;
-                let entrance = vanilla.entrance;
-                let selectedArea = selection.area;
-                let selectedEntrance = selection.entrance;
-
-                _hyrule = toggleKaeporaLanding(_hyrule, area, selectedArea);
-                _hyrule = setOverworldEntrance(_hyrule, area, entrance, { area: selectedArea, entrance: selectedEntrance });
-
-                [_hyrule, _interiorEntrances] = addInteriorEntrance(
-                    _hyrule,
-                    _interiorEntrances,
-                    {
-                        [selectedArea]: { "area": area, "entrance": entrance }
-                    }
-                );
-
-                [_hyrule, _interiorEntrances] = setAreaToAccessible(_hyrule, _interiorEntrances, selectedArea);
-                trackGaEvent("tracker", "set kaepora entrance");
-                break;
-            }
             default: {
                 throw Error("Invalid type: " + vanilla.type);
             }
@@ -753,86 +765,69 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         let searchTerm = null;
         let _interiorEntrances = interiorEntrances;
         let _hyrule = hyrule;
-        switch (obj.type) {
-            case EntranceTypes.Overworld: {
-                let area = obj.area;
-                let entrance = obj.entrance;
-                let leadsToArea = obj.leadsTo.area;
-                let leadsToEntrance = obj.leadsTo.entrance;
-                searchTerm = area;
 
-                _hyrule = resetOverworldEntrance(_hyrule, area, entrance);
-                _hyrule = resetOverworldEntrance(_hyrule, leadsToArea, leadsToEntrance);
+        if (obj.leadsTo !== undefined && obj.leadsTo !== null) {
+            const area = obj.area;
+            const entrance = obj.entrance;
+            const leadsToArea = obj.leadsTo.area;
+            const leadsToEntrance = obj.leadsTo.entrance;
+            searchTerm = area;
 
-                addAvailableOverworldEntrance(area, entrance);
-                addAvailableOverworldEntrance(leadsToArea, leadsToEntrance);
-                let areasAffected;
-                [_hyrule, _interiorEntrances, areasAffected] = removeInteriorEntrances(
-                    _hyrule,
-                    _interiorEntrances,
-                    {
-                        [area]: [{ "area": leadsToArea, "entrance": leadsToEntrance }],
-                        [leadsToArea]: [{ "area": area, "entrance": entrance }]
-                    }
-                );
+            _hyrule = setPropertiesOfEntrance(_hyrule, area, entrance, { leadsTo: null, interior: null });
+            _hyrule = setPropertiesOfEntrance(_hyrule, leadsToArea, leadsToEntrance, { leadsTo: null, interior: null });
 
-                [_hyrule, _interiorEntrances] = hideAreasIfEmpty(_hyrule, _interiorEntrances, areasAffected);
-                trackGaEvent("tracker", "reset overworld entrance");
-                break;
-            }
-            case EntranceTypes.Grotto:
-            case EntranceTypes.House:
-            case EntranceTypes.Dungeon: {
-                let area = obj.area;
-                let entrance = obj.entrance;
-                let interior = obj.interior;
-                searchTerm = interior;
+            syncLegacyPoolsForAreaEntrance(hyrule, area, entrance, "add");
+            syncLegacyPoolsForAreaEntrance(hyrule, leadsToArea, leadsToEntrance, "add");
 
-                _hyrule = resetInterior(_hyrule, area, entrance);
-
-                addInteriorBackIntoPool(obj.type, interior);
-
-                let areasAffected;
-                [_hyrule, _interiorEntrances, areasAffected] = removeInteriorEntrances(
-                    _hyrule,
-                    _interiorEntrances,
-                    {
-                        [interior]: [{ "area": area, "entrance": entrance }],
-                        [area]: [{ "entrance": entrance, "interior": interior }]
-                    }
-                );
-
-                [_hyrule, _interiorEntrances] = hideAreasIfEmpty(_hyrule, _interiorEntrances, areasAffected);
-                if (obj.type === EntranceTypes.House) {
-                    addAvailableHouseEntrance(area, entrance);
-                } else if (obj.type === EntranceTypes.Grotto) {
-                    addAvailableGrottoEntrance(area, entrance);
+            let areasAffected;
+            [_hyrule, _interiorEntrances, areasAffected] = removeInteriorEntrances(
+                _hyrule,
+                _interiorEntrances,
+                {
+                    [area]: [{ area: leadsToArea, entrance: leadsToEntrance }],
+                    [leadsToArea]: [{ area, entrance }]
                 }
-                trackGaEvent("tracker", "reset interior entrance");
-                break;
-            }
-            case EntranceTypes["Kaepora Gaebora"]: {
-                let area = obj.area;
-                let leadsToArea = obj.leadsTo.area;
+            );
 
-                _hyrule = toggleKaeporaLanding(_hyrule, area, leadsToArea);
-                _hyrule = resetOverworldEntrance(_hyrule, area, obj.entrance);
+            [_hyrule, _interiorEntrances] = hideAreasIfEmpty(_hyrule, _interiorEntrances, areasAffected);
+            trackGaEvent("tracker", `reset config entrance link (${obj.type})`);
+        } else {
+            switch (obj.type) {
+                case EntranceTypes.Grotto:
+                case EntranceTypes.House:
+                case EntranceTypes.Dungeon:
+                case EntranceTypes.Song: {
+                    let area = obj.area;
+                    let entrance = obj.entrance;
+                    let interior = obj.interior;
+                    searchTerm = interior;
 
-                let areasAffected;
-                [_hyrule, _interiorEntrances, areasAffected] = removeInteriorEntrances(
-                    _hyrule,
-                    _interiorEntrances,
-                    {
-                        [leadsToArea]: [{ "area": area, "entrance": EntranceTypes["Kaepora Gaebora"] }]
+                    _hyrule = resetInterior(_hyrule, area, entrance);
+
+                    addInteriorBackIntoPool(obj.type, interior);
+
+                    let areasAffected;
+                    [_hyrule, _interiorEntrances, areasAffected] = removeInteriorEntrances(
+                        _hyrule,
+                        _interiorEntrances,
+                        {
+                            [interior]: [{ "area": area, "entrance": entrance }],
+                            [area]: [{ "entrance": entrance, "interior": interior }]
+                        }
+                    );
+
+                    [_hyrule, _interiorEntrances] = hideAreasIfEmpty(_hyrule, _interiorEntrances, areasAffected);
+                    if (obj.type === EntranceTypes.House) {
+                        addAvailableHouseEntrance(area, entrance);
+                    } else if (obj.type === EntranceTypes.Grotto) {
+                        addAvailableGrottoEntrance(area, entrance);
                     }
-                );
-
-                [_hyrule, _interiorEntrances] = hideAreasIfEmpty(_hyrule, _interiorEntrances, areasAffected);
-                trackGaEvent("tracker", "reset kaepora entrance");
-                break;
-            }
-            default: {
-                throw Error("Invalid type: " + obj.type);
+                    trackGaEvent("tracker", "reset interior entrance");
+                    break;
+                }
+                default: {
+                    throw Error("Invalid type: " + obj.type);
+                }
             }
         }
         if (searchTerm !== null) {
@@ -1035,9 +1030,11 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                                 area={area}
                                 availableDungeons={availableDungeons}
                                 availableHouses={availableHouses}
-                                availableOverworldEntrances={derivedAvailableOverworldEntrances}
+                                availableOverworldEntrances={derivedAvailableConfigEntrances}
                                 availableGrottos={availableGrottos}
-                                allOverworldEntrances={derivedAllOverworldEntrances}
+                                allOverworldEntrances={derivedAllConfigEntrances}
+                                availableConfigEntrances={derivedAvailableConfigEntrances}
+                                allConfigEntrances={derivedAllConfigEntrances}
                                 areaName={areaName}
                                 setEntrance={setEntrance}
                                 resetEntrance={resetEntrance}
