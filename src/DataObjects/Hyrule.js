@@ -1007,4 +1007,566 @@ export default {
             }
         }
     },
+
+    // German house regions imported from checklist
+    "Feen-Quelle (Schloss Hyrule)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Feen-Quelle (Schloss Hyrule)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Feen-Quelle (Gebirgspfad)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Feen-Quelle (Gebirgspfad)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Feen-Quelle (Zoras Quelle)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Feen-Quelle (Zoras Quelle)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Feen-Quelle (Wüstenkoloss)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Feen-Quelle (Wüstenkoloss)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Feen-Quelle (Todeskrater)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Feen-Quelle (Todeskrater)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Feen-Quelle (Ganons Schloss)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Feen-Quelle (Ganons Schloss)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Fischweiher": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Fischweiher": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Boris": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Boris": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus der allwissenden Brüder": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus der allwissenden Brüder": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus der Zimmerleute": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus der Zimmerleute": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus der Zwillinge": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus der Zwillinge": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Impa Hühnergehege": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Impa Hühnergehege": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Impa Haupteingang": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Impa Haupteingang": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Link": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Link": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Mido": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Mido": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Nebenstraße (3x Krug)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Nebenstraße (3x Krug)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Nebenstraße (Richard + 1x Kiste)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Nebenstraße (Richard + 1x Kiste)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Salia": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Salia": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Haus Talon": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Haus Talon": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Krabbelminen-Bowling": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Krabbelminen-Bowling": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Labor am See": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Labor am See": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Basar (Kakariko)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Basar (Kakariko)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Basar (Marktplatz)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Basar (Marktplatz)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Goronia": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Goronia": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Hexe Asa": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Hexe Asa": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Kokiri": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Kokiri": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Krabbelminen-Shop": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Krabbelminen-Shop": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Magie (Marktplatz)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Magie (Marktplatz)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Magie hinten": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Magie hinten": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Magie vorne": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Magie vorne": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Laden Zoras Reich": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Laden Zoras Reich": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Maskenhändler": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Maskenhändler": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Schatzkisten-Poker": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Schatzkisten-Poker": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Scheune Lon Lon Farm": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Scheune Lon Lon Farm": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Schießbude (Kakariko)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Schießbude (Kakariko)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Schießbude (Marktplatz)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Schießbude (Marktplatz)": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Skulltula Haus": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Skulltula Haus": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Ställe Lon Lon Farm": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Ställe Lon Lon Farm": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Wächterhaus": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Wächterhaus": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Geistermarkt": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Geistermarkt": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Windmühle": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Windmühle": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Zelt der Zimmerleute": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Zelt der Zimmerleute": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Zitadelle der Zeit": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Zitadelle der Zeit": {
+                clear: false,
+                type: EntranceTypes.House,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    }
+
 };

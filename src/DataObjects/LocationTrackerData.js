@@ -2969,7 +2969,918 @@ const LocationTrackerData = {
       "defaultChecked": false,
       "meta": "FALSE"
     }
-  ]
+  ],
+
+    // German house tracker regions imported from checklist
+    "Feen-Quelle (Schloss Hyrule)": [
+
+    ],
+    "Feen-Quelle (Gebirgspfad)": [
+
+    ],
+    "Feen-Quelle (Zoras Quelle)": [
+
+    ],
+    "Feen-Quelle (Wüstenkoloss)": [
+
+    ],
+    "Feen-Quelle (Todeskrater)": [
+
+    ],
+    "Feen-Quelle (Ganons Schloss)": [
+
+    ],
+    "Fischweiher": [
+
+    ],
+    "Haus Boris": [
+
+    ],
+    "Haus der allwissenden Brüder": [
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus der Zimmerleute": [
+        {
+            "name": "Quest Biggoron-Schwert",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "schlafender Talon",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus der Zwillinge": [
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus Impa Hühnergehege": [
+        {
+            "name": "Kuh",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus Impa Haupteingang": [
+        {
+            "name": "Kuh",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus Link": [
+        {
+            "name": "Kuh",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus Mido": [
+        {
+            "name": "Schatztruhen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Schatztruhen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Schatztruhen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Schatztruhen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus Nebenstraße (3x Krug)": [
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus Nebenstraße (Richard + 1x Kiste)": [
+        {
+            "name": "Richard",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Kiste",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus Salia": [
+        {
+            "name": "Herz",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Herz",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Herz",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Herz",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Haus Talon": [
+        {
+            "name": "Hühnerspiel",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Krabbelminen-Bowling": [
+
+    ],
+    "Labor am See": [
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Kiste",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Basar (Kakariko)": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Basar (Marktplatz)": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Goronia": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Hexe Asa": [
+        {
+            "name": "Quest Biggoron-Schwert",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Kokiri": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Krabbelminen-Shop": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Magie (Marktplatz)": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Magie hinten": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Magie vorne": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Laden Zoras Reich": [
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Gegenstände",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Maskenhändler": [
+
+    ],
+    "Schatzkisten-Poker": [
+
+    ],
+    "Scheune Lon Lon Farm": [
+        {
+            "name": "Kühe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Kühe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Schießbude (Kakariko)": [
+
+    ],
+    "Schießbude (Marktplatz)": [
+
+    ],
+    "Skulltula Haus": [
+
+    ],
+    "Ställe Lon Lon Farm": [
+        {
+            "name": "Kühe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Kühe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Wächterhaus": [
+        {
+            "name": "Kiste",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Geistermarkt": [
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Windmühle": [
+
+    ],
+    "Zelt der Zimmerleute": [
+
+    ],
+    "Zitadelle der Zeit": [
+
+    ]
+
 };
 
 export default LocationTrackerData;
