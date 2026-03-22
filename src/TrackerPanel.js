@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
+import { getRegionIcon } from "./regionPresentation";
 
-export default function TrackerPanel({ locationChecks, toggleLocationCheck, focusRegion, locationTrackerData }) {
+export default function TrackerPanel({ locationChecks, toggleLocationCheck, focusRegion, locationTrackerData, regionMeta = {} }) {
     const sectionRefs = useRef({});
     const regions = useMemo(() => Object.keys(locationTrackerData || {}).sort((a, b) => a.localeCompare(b)), [locationTrackerData]);
 
@@ -29,7 +30,7 @@ export default function TrackerPanel({ locationChecks, toggleLocationCheck, focu
                             >
                                 <div className="card-header has-background-dark">
                                     <div className="tracker-region-title">
-                                        <span>{region}</span>
+                                        <span className="region-title-main"><span className="region-type-icon" aria-hidden="true">{getRegionIcon(regionMeta[region])}</span>{region}</span>
                                         <span className="tracker-region-count">{checked}/{items.length}</span>
                                     </div>
                                 </div>

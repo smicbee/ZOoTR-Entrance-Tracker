@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import EntranceTypes from "./DataObjects/EntranceTypes";
+import { getRegionIcon } from "./regionPresentation";
 
 const USERS_KEY = "zootr-admin-users-v1";
 
@@ -523,7 +524,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                                     className={`admin-nav-item ${region === activeRegion ? "is-active" : ""}`}
                                     onClick={() => handleSelectRegion(region)}
                                 >
-                                    <span>{region}</span>
+                                    <span className="region-title-main"><span className="region-type-icon" aria-hidden="true">{getRegionIcon(draftConfig.hyrule?.[region])}</span>{region}</span>
                                     <span className="admin-nav-meta">{Object.keys(draftConfig.hyrule?.[region]?.entrances || {}).length}</span>
                                 </button>
                             ))}
@@ -539,7 +540,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                     <aside className="admin-subnav-sidebar">
                         <div className="admin-sidebar-head">
                             <p className="admin-sidebar-kicker">Selected Region</p>
-                            <h3 className="title is-6 has-text-white mb-0">{activeRegion || "No region"}</h3>
+                            <h3 className="title is-6 has-text-white mb-0 region-title-main">{activeRegion ? <><span className="region-type-icon" aria-hidden="true">{getRegionIcon(draftConfig.hyrule?.[activeRegion])}</span>{activeRegion}</> : "No region"}</h3>
                         </div>
 
                         <div className="admin-side-section">

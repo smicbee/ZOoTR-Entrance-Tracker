@@ -2,6 +2,7 @@ import NavigableInteriors from "./DataObjects/NavigableInteriors";
 import NavigableAreas from "./DataObjects/NavigableAreas";
 import EntranceTypes from "./DataObjects/EntranceTypes";
 import Entrance from "./Entrance";
+import { getRegionIcon } from "./regionPresentation";
 import React from "react";
 
 export default function Area({
@@ -14,8 +15,8 @@ export default function Area({
     trackerTotal,
     ...props
 }) {
-
-    let entrances = [];
+    const entrances = [];
+    const regionIcon = getRegionIcon(area);
 
     return (
         <div className="card area-card">
@@ -23,7 +24,7 @@ export default function Area({
                 onClick={() => props.toggleAreaExpanded(areaName)}
             >
                 <h5 className="is-size-5 has-text-weight-semibold area-card-name">
-                    {areaName}
+                    <span className="region-title-main"><span className="region-type-icon" aria-hidden="true">{regionIcon}</span>{areaName}</span>
                     {trackerTotal > 0 && (
                         <button
                             type="button"
@@ -37,9 +38,7 @@ export default function Area({
                         </button>
                     )}
                 </h5>
-                <span
-                    className="icon has-text-white"
-                >
+                <span className="icon has-text-white">
                     {area.isExpanded ?
                         <i className="fa fa-minus area-expand-icon"></i> :
                         <i className="fa fa-plus area-expand-icon"></i>
@@ -58,22 +57,18 @@ export default function Area({
             >
             </div>
             {area.isExpanded && <div className="card-content area-card-content">
-                {/* iterate through the entrances of the area */}
                 {Object.keys(area.entrances).sort().map((entranceName, i) => {
-                    // column layout
-                    // entrance object derived from the area object
-                    let entrance = area.entrances[entranceName];
+                    const entrance = area.entrances[entranceName];
 
                     if (overworldOnly && !(NavigableAreas.includes(entranceName) ||
                         NavigableInteriors.includes(entrance.interior))) {
                         return null;
                     }
-                    // all config entrance types are treated like area-to-area links.
-                    let options = entrance.type === EntranceTypes["Kaepora Gaebora"]
+
+                    const options = entrance.type === EntranceTypes["Kaepora Gaebora"]
                         ? allConfigEntrances
                         : availableConfigEntrances;
 
-                    // add to the correct column in area container
                     entrances.push(
                         <Entrance
                             key={i}
@@ -90,7 +85,7 @@ export default function Area({
                     if (i !== Object.keys(area.entrances).length - 1) {
                         entrances.push(
                             <div key={`entrance-${i}`} className="entrance-separator"></div>
-                        )
+                        );
                     }
                     return null;
                 })}
@@ -99,8 +94,7 @@ export default function Area({
                         {entrances}
                     </div>
                 </div>
-            </div>
-            }
+            </div>}
         </div>
-    )
+    );
 }

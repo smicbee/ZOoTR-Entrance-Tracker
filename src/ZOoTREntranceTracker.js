@@ -278,6 +278,14 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         return { region, checked, total: entries.length };
     };
 
+    const trackerSummary = Object.keys(normalizedLocationTrackerData || {}).reduce((acc, region) => {
+        const entries = normalizedLocationTrackerData[region] || [];
+        const checks = locationChecks[region] || {};
+        acc.total += entries.length;
+        acc.checked += entries.filter((item) => checks[item.name]).length;
+        return acc;
+    }, { checked: 0, total: 0 });
+
     const toggleLocationCheck = (region, itemName) => {
         const current = locationChecks[region] || {};
         setLocationChecks({
@@ -855,6 +863,8 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 trackGaEvent={trackGaEvent}
                 songsHeight={songsHeight}
                 showAdmin={showAdmin}
+                showTracker={showTracker}
+                trackerSummary={trackerSummary}
                 openAdmin={() => setShowAdmin((current) => !current)}
             />
 
@@ -901,7 +911,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                                         setShowTracker(true);
                                     }}
                                 >
-                                    Tracker
+                                    Tracker ({trackerSummary.checked}/{trackerSummary.total})
                                 </a>
                             </p>
                             <p className="control">
@@ -975,6 +985,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                             toggleLocationCheck={toggleLocationCheck}
                             focusRegion={trackerFocusRegion}
                             locationTrackerData={normalizedLocationTrackerData}
+                            regionMeta={hyrule}
                         />
                         :
                         ""

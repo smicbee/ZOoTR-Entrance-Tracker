@@ -235,6 +235,7 @@ html {
     width: 100%;
     justify-content: space-between;
     align-items: center;
+    gap: 0.75rem;
     color: white;
     padding: 0.65rem 0.9rem;
     font-weight: 700;
@@ -733,6 +734,27 @@ html {
     align-items: center;
     gap: 0.45rem;
     flex-wrap: wrap;
+}
+
+.region-title-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.region-type-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    min-width: 1.25rem;
+    font-size: 0.95rem;
+}
+
+.tracker-summary-pill {
+    color: #9ad1ff;
+    font-size: 0.92rem;
+    margin-left: 0.35rem;
 }
 
 .tracker-count-button {

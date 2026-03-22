@@ -36,7 +36,7 @@ const setActiveSeedIdStorage = (seedId) => {
     }
 };
 
-export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, openAdmin, showAdmin, songsHeight = 0, ...props }) {
+export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, openAdmin, showAdmin, songsHeight = 0, trackerSummary, showTracker, ...props }) {
 
     const [message, setMessage] = useState("");
     const [currentMenuHeight, setCurrentMenuHeight] = useState(0);
@@ -242,7 +242,7 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ope
             <div style={{ width: "100%", maxWidth: "1000px", margin: "auto" }}>
                 <nav>
                     <h1 className="is-size-4 navbar-item has-text-white has-text-weight-bold">
-                        ZOoTR Entrance Tracker
+                        ZOoTR Entrance Tracker {showTracker ? <span className="tracker-summary-pill">({trackerSummary?.checked || 0}/{trackerSummary?.total || 0})</span> : null}
                     </h1>
                 </nav>
                 {message === "" ?
