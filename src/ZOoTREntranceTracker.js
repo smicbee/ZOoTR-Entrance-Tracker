@@ -59,6 +59,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const [songs, setSongs] = useLocalStorage("songs", init.songs);
     const [showTracker, setShowTracker] = useLocalStorage("showTracker", false);
     const [spawnPoints, setSpawnPoints] = useLocalStorage("spawnPoints", init.spawnPoints || { child: null, adult: null });
+    const [forceSpawnPrompt, setForceSpawnPrompt] = useState(false);
     const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks(normalizedLocationTrackerData));
     const [trackerFocusRegion] = useState(null);
     const [trackerModalRegion, setTrackerModalRegion] = useState(null);
@@ -935,6 +936,18 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                                     }}
                                 >
                                     Hide Tracker
+                                </a>
+                            </p>
+                            <p className="control">
+                                <a
+                                    href="#spawn"
+                                    className={"button is-outlined is-small " + (forceSpawnPrompt ? "is-link" : "is-dark")}
+                                    onClick={() => {
+                                        trackGaEvent("config", "reassign spawn");
+                                        setForceSpawnPrompt(true);
+                                    }}
+                                >
+                                    Reassign Spawn
                                 </a>
                             </p>
                         </div>
