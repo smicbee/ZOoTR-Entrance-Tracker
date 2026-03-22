@@ -17,6 +17,8 @@ export default function Area({
 }) {
     const entrances = [];
     const regionIcon = getRegionIcon(area);
+    const hasChildSpawn = props.spawnPoints?.child?.area === areaName;
+    const hasAdultSpawn = props.spawnPoints?.adult?.area === areaName;
 
     return (
         <div className="card area-card">
@@ -24,7 +26,7 @@ export default function Area({
                 onClick={() => props.toggleAreaExpanded(areaName)}
             >
                 <h5 className="is-size-5 has-text-weight-semibold area-card-name">
-                    <span className="region-title-main"><span className="region-type-icon" aria-hidden="true">{regionIcon}</span>{areaName}</span>
+                    <span className="region-title-main"><span className="region-type-icon" aria-hidden="true">{regionIcon}</span>{areaName}{hasChildSpawn ? <span className="spawn-region-icon" title="Child Spawn" role="img" aria-label="Child Spawn"><span aria-hidden="true">🧒</span></span> : null}{hasAdultSpawn ? <span className="spawn-region-icon" title="Adult Spawn" role="img" aria-label="Adult Spawn"><span aria-hidden="true">🧑</span></span> : null}</span>
                     {trackerTotal > 0 && (
                         <button
                             type="button"
