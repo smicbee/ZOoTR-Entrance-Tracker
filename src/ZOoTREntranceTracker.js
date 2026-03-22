@@ -258,6 +258,27 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         setTrackerModalRegion(region);
     };
 
+    const getDerivedOverworldEntranceMap = (includeAssigned = false) => {
+        const map = {};
+        Object.keys(hyrule || {}).forEach((area) => {
+            map[area] = [];
+            Object.keys(hyrule[area]?.entrances || {}).forEach((entranceName) => {
+                const entrance = hyrule[area].entrances[entranceName];
+                if (entrance.type !== EntranceTypes.Overworld) {
+                    return;
+                }
+                if (!includeAssigned && entrance.leadsTo !== null && entrance.leadsTo !== undefined) {
+                    return;
+                }
+                map[area].push(entranceName);
+            });
+        });
+        return map;
+    };
+
+    const derivedAvailableOverworldEntrances = getDerivedOverworldEntranceMap(false);
+    const derivedAllOverworldEntrances = getDerivedOverworldEntranceMap(true);
+
     const setPropertiesOfEntrance = (_hyrule, area, entrance, obj) => {
         let _area = _hyrule[area];
         Object.keys(obj).forEach((prop) => {
@@ -977,9 +998,9 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                                 area={area}
                                 availableDungeons={availableDungeons}
                                 availableHouses={availableHouses}
-                                availableOverworldEntrances={availableOverworldEntrances}
+                                availableOverworldEntrances={derivedAvailableOverworldEntrances}
                                 availableGrottos={availableGrottos}
-                                allOverworldEntrances={allOverworldEntrances}
+                                allOverworldEntrances={derivedAllOverworldEntrances}
                                 areaName={areaName}
                                 setEntrance={setEntrance}
                                 resetEntrance={resetEntrance}
