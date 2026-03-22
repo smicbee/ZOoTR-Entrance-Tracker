@@ -4,6 +4,7 @@ export default function PromptForLocationEntrance({ locationToPromptFor, showIni
     const [selectedLocation, setSelectedLocation] = useState("");
     const [selectedStartAge, setSelectedStartAge] = useState(startAsChild ? "child" : "adult");
     const isSpawnPrompt = locationToPromptFor === "__spawn__";
+    const isModal = !!props.modal;
 
     const setInteriorToAreaAndEntrance = () => {
         if (selectedLocation === "") {
@@ -11,13 +12,16 @@ export default function PromptForLocationEntrance({ locationToPromptFor, showIni
         }
         if (isSpawnPrompt) {
             props.setSpawnPoint(selectedStartAge, JSON.parse(selectedLocation));
+            if (props.onClose) {
+                props.onClose();
+            }
         } else {
             props.setEntrance(JSON.parse(selectedLocation), { interior: locationToPromptFor });
         }
         setSelectedLocation("");
     };
 
-    return (
+    const content = (
         <div className="prompt card has-background-dark">
             <div className="prompt-field column is-full">
                 <h5 className="prompt-field is-size-5 has-text-centered prompt-question">
@@ -32,16 +36,18 @@ export default function PromptForLocationEntrance({ locationToPromptFor, showIni
                             if (availableEntrances[optgroupArea].length === 0) {
                                 return null;
                             }
-                            return <optgroup key={i} label={optgroupArea}>
-                                {availableEntrances[optgroupArea].sort().map((optgroupEntrance, j) => {
-                                    return <option
-                                        key={j}
-                                        value={JSON.stringify({ area: optgroupArea, entrance: optgroupEntrance, type })}
-                                    >
-                                        {optgroupEntrance}
-                                    </option>
-                                })}
-                            </optgroup>
+                            return (
+                                <optgroup key={i} label={optgroupArea}>
+                                    {availableEntrances[optgroupArea].sort().map((optgroupEntrance, j) => (
+                                        <option
+                                            key={j}
+                                            value={JSON.stringify({ area: optgroupArea, entrance: optgroupEntrance, type })}
+                                        >
+                                            {optgroupEntrance}
+                                        </option>
+                                    ))}
+                                </optgroup>
+                            );
                         })}
                     </select>
                 </div>
@@ -51,7 +57,7 @@ export default function PromptForLocationEntrance({ locationToPromptFor, showIni
                     {isSpawnPrompt ? `Set ${selectedStartAge === "child" ? "Child" : "Adult"} Spawn` : `Add ${locationToPromptFor}`}
                 </button>
             </div>
-            {showInitialAgeCheck &&
+            {showInitialAgeCheck && (
                 <div className="prompt-field has-text-centered column">
                     {isSpawnPrompt ? (
                         <div className="buttons is-centered are-small">
@@ -68,7 +74,26 @@ export default function PromptForLocationEntrance({ locationToPromptFor, showIni
                         </button>
                     )}
                 </div>
-            }
+            )}
+            {isModal && (
+                <div className="prompt-field has-text-centered column">
+                    <button className="button is-small is-dark is-outlined" onClick={() => { if (props.onClose) { props.onClose(); } }}>
+                        Close
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+
+    if (!isModal) {
+        return content;
+    }
+
+    return (
+        <div className="prompt-modal-overlay" onClick={() => { if (props.onClose) { props.onClose(); } }}>
+            <div className="prompt-modal-shell" onClick={(e) => e.stopPropagation()}>
+                {content}
+            </div>
         </div>
     );
 }

@@ -60,6 +60,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const [showTracker, setShowTracker] = useLocalStorage("showTracker", false);
     const [spawnPoints, setSpawnPoints] = useLocalStorage("spawnPoints", init.spawnPoints || { child: null, adult: null });
     const [forceSpawnPrompt, setForceSpawnPrompt] = useState(false);
+    const [showSpawnModal, setShowSpawnModal] = useState(false);
     const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks(normalizedLocationTrackerData));
     const [trackerFocusRegion] = useState(null);
     const [trackerModalRegion, setTrackerModalRegion] = useState(null);
@@ -1025,16 +1026,16 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                     />
 
                     <div className="user-prompts">
-                        {locationsToPromptFor.length > 0 &&
-                            locationsToPromptFor.map((location, i) => {
+                        {locationsToPromptFor.filter((location) => location !== "__spawn__").length > 0 &&
+                            locationsToPromptFor.filter((location) => location !== "__spawn__").map((location, i) => {
                                 return <PromptForLocationEntrance
                                     key={i}
                                     locationToPromptFor={location}
-                                    availableEntrances={location === "__spawn__" ? derivedAllConfigEntrances : (Houses[location] !== undefined ? availableHouseEntrances : availableGrottoEntrances)}
+                                    availableEntrances={Houses[location] !== undefined ? availableHouseEntrances : availableGrottoEntrances}
                                     type={Houses[location] !== undefined ? EntranceTypes.House : EntranceTypes.Grotto}
                                     setEntrance={setEntrance}
                                     setSpawnPoint={setSpawnPoint}
-                                    showInitialAgeCheck={location === "__spawn__"}
+                                    showInitialAgeCheck={false}
                                     startAsChild={startAsChild}
                                     setStartAsChild={setStartAsChild}
                                     toggleStartAsChild={() => setStartAsChild(!startAsChild)}
@@ -1042,6 +1043,25 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                             })
                         }
                     </div>
+
+                    {(showSpawnModal || locationsToPromptFor.includes("__spawn__")) && (
+                        <PromptForLocationEntrance
+                            locationToPromptFor="__spawn__"
+                            availableEntrances={derivedAllConfigEntrances}
+                            type={EntranceTypes.Overworld}
+                            setEntrance={setEntrance}
+                            setSpawnPoint={setSpawnPoint}
+                            showInitialAgeCheck={true}
+                            startAsChild={startAsChild}
+                            setStartAsChild={setStartAsChild}
+                            toggleStartAsChild={() => setStartAsChild(!startAsChild)}
+                            modal={true}
+                            onClose={() => {
+                                setShowSpawnModal(false);
+                                setForceSpawnPrompt(false);
+                            }}
+                        />
+                    )}
 
                     <div className="areas-container is-flex-desktop is-flex-tablet is-multiline flex-wraps">
                         {/* iterate through the areas of Hyrule */}
