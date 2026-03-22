@@ -1,12 +1,11 @@
 import React from "react";
-import LocationTrackerData from "./DataObjects/LocationTrackerData";
 
-export default function TrackerRegionModal({ region, isOpen, onClose, locationChecks, toggleLocationCheck }) {
+export default function TrackerRegionModal({ region, isOpen, onClose, locationChecks, toggleLocationCheck, locationTrackerData }) {
     if (!isOpen || !region) {
         return null;
     }
 
-    const items = LocationTrackerData[region] || [];
+    const items = [...(locationTrackerData?.[region] || [])].sort((a, b) => a.name.localeCompare(b.name));
     const checks = locationChecks[region] || {};
     const checked = items.filter(item => checks[item.name]).length;
 

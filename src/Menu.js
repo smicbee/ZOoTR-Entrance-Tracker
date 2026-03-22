@@ -327,21 +327,19 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ope
                             onClick={(e) => e.stopPropagation()}
                         >
                             <div className="seed-sheet-header">
+                                <button
+                                    className="button is-small is-dark is-outlined seed-sheet-close"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setShowSeedBar(false);
+                                    }}
+                                    aria-label="Close seeds"
+                                >
+                                    ✕
+                                </button>
                                 <div className="seed-sheet-handle" />
-                                <div className="is-flex is-justify-content-space-between is-align-items-center">
-                                    <strong className="has-text-white">Seeds</strong>
-                                    <button
-                                        className="button is-small is-dark is-outlined seed-sheet-close"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            setShowSeedBar(false);
-                                        }}
-                                        aria-label="Close seeds"
-                                    >
-                                        ✕
-                                    </button>
-                                </div>
+                                <strong className="has-text-white seed-sheet-title">Seeds</strong>
                             </div>
                             <div className="seed-sheet-body">
                                 <input

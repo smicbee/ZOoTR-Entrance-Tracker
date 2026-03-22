@@ -19,14 +19,25 @@ import TrackerRegionModal from "./TrackerRegionModal";
 import AdminModal from "./AdminModal";
 import getInitialLocationChecks from "./Functions/getInitialLocationChecks";
 
+const normalizeLocationTrackerData = (hyruleConfig, locationTrackerData = {}) => {
+    const normalized = {};
+    Object.keys(hyruleConfig || {}).forEach((region) => {
+        normalized[region] = Array.isArray(locationTrackerData?.[region])
+            ? JSON.parse(JSON.stringify(locationTrackerData[region]))
+            : [];
+    });
+    return normalized;
+};
+
 export default function ZOoTREntranceTracker({ ReactGA }) {
 
     const defaultTrackerConfig = {
         hyrule: JSON.parse(JSON.stringify(HyruleData)),
-        locationTrackerData: JSON.parse(JSON.stringify(LocationTrackerData))
+        locationTrackerData: normalizeLocationTrackerData(HyruleData, LocationTrackerData)
     };
     const [trackerConfig, setTrackerConfig] = useLocalStorage("trackerConfig", defaultTrackerConfig);
     const [showAdmin, setShowAdmin] = useState(false);
+    const normalizedLocationTrackerData = normalizeLocationTrackerData(trackerConfig.hyrule, trackerConfig.locationTrackerData);
 
     let init = getInitialState(trackerConfig.hyrule);
 
@@ -47,7 +58,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const [hyrule, setHyrule] = useLocalStorage("hyrule", init.hyrule);
     const [songs, setSongs] = useLocalStorage("songs", init.songs);
     const [showTracker, setShowTracker] = useLocalStorage("showTracker", false);
-    const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks(trackerConfig.locationTrackerData));
+    const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks(normalizedLocationTrackerData));
     const [trackerFocusRegion] = useState(null);
     const [trackerModalRegion, setTrackerModalRegion] = useState(null);
 
@@ -155,12 +166,16 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         setRouteFinderEnd(stateToApply.routeFinderEnd !== undefined ? stateToApply.routeFinderEnd : initialState.routeFinderEnd);
         setAllOverworldEntrances(stateToApply.allOverworldEntrances || initialState.allOverworldEntrances);
         setShowTracker(stateToApply.showTracker !== undefined ? stateToApply.showTracker : false);
-        setLocationChecks({ ...getInitialLocationChecks(config.locationTrackerData), ...(stateToApply.locationChecks || {}) });
+        setLocationChecks({ ...getInitialLocationChecks(normalizeLocationTrackerData(config.hyrule, config.locationTrackerData)), ...(stateToApply.locationChecks || {}) });
     };
 
     const saveTrackerConfig = (nextConfig) => {
-        setTrackerConfig(nextConfig);
-        applyState({ ...getInitialState(nextConfig.hyrule), locationChecks: getInitialLocationChecks(nextConfig.locationTrackerData), showTracker: false }, nextConfig);
+        const normalizedConfig = {
+            ...nextConfig,
+            locationTrackerData: normalizeLocationTrackerData(nextConfig.hyrule, nextConfig.locationTrackerData)
+        };
+        setTrackerConfig(normalizedConfig);
+        applyState({ ...getInitialState(normalizedConfig.hyrule), locationChecks: getInitialLocationChecks(normalizedConfig.locationTrackerData), showTracker: false }, normalizedConfig);
     };
 
     const loadBlobConfig = async () => {
@@ -214,24 +229,15 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     });
 
     const resetState = () => {
-        applyState({ ...getInitialState(trackerConfig.hyrule), locationChecks: getInitialLocationChecks(trackerConfig.locationTrackerData), showTracker: false });
+        applyState({ ...getInitialState(trackerConfig.hyrule), locationChecks: getInitialLocationChecks(normalizedLocationTrackerData), showTracker: false });
     };
 
-    const trackerRegionMap = {
-        "Hyrule/Ganon's Castle": "Hyrule Castle Grounds",
-        "Castle Town Entrance": "Market",
-        "Gerudo Fortress": "Gerudo's Fortress",
-        "Gerudo's Fortress": "Gerudo's Fortress",
-        "Zora River": "Zora's River",
-        "Zora's River": "Zora's River"
-    };
-
-    const getTrackerRegionForArea = (areaName) => trackerRegionMap[areaName] || areaName;
+    const getTrackerRegionForArea = (areaName) => areaName;
 
     const getTrackerCountsForArea = (areaName) => {
         const region = getTrackerRegionForArea(areaName);
         const regionChecks = locationChecks[region] || {};
-        const entries = (trackerConfig.locationTrackerData[region] || []).map(item => item.name);
+        const entries = (normalizedLocationTrackerData[region] || []).map(item => item.name);
         const checked = entries.filter(key => regionChecks[key]).length;
         return { region, checked, total: entries.length };
     };
@@ -915,7 +921,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                             locationChecks={locationChecks}
                             toggleLocationCheck={toggleLocationCheck}
                             focusRegion={trackerFocusRegion}
-                            locationTrackerData={trackerConfig.locationTrackerData}
+                            locationTrackerData={normalizedLocationTrackerData}
                         />
                         :
                         ""
@@ -927,6 +933,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                         onClose={() => setTrackerModalRegion(null)}
                         locationChecks={locationChecks}
                         toggleLocationCheck={toggleLocationCheck}
+                        locationTrackerData={normalizedLocationTrackerData}
                     />
 
                     <div className="user-prompts">
