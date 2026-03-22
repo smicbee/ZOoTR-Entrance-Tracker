@@ -63,6 +63,12 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         return () => { window.removeEventListener("resize", handleResize) };
     });
 
+    useLayoutEffect(() => {
+        if (overworldOnly) {
+            setOverworldOnly(false);
+        }
+    }, [overworldOnly, setOverworldOnly]);
+
     const handleResize = () => {
         setWindowChanges(!windowChanges);
     };
@@ -788,42 +794,15 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 importState={applyState}
                 currentState={exportState()}
                 trackGaEvent={trackGaEvent}
+                songsHeight={songsHeight}
                 showAdmin={showAdmin}
                 openAdmin={() => setShowAdmin(true)}
             />
 
             <div className="top-padding" style={{ height: menuHeight }} />
 
-            {Object.keys(interiorEntrances).length >= 1 &&
+            {!showAdmin && Object.keys(interiorEntrances).length >= 1 &&
                 <div className="app-config flex-wraps">
-                    <div className="entrances-control config-control">
-                        <div className="field is-grouped">
-                            <p className="control">
-                                <a
-                                    href="#overworld"
-                                    className={"button is-outlined is-small " + (!overworldOnly ? "is-link" : "is-dark")}
-                                    onClick={() => {
-                                        trackGaEvent("config", "show all entrances");
-                                        setOverworldOnly(false);
-                                    }}
-                                >
-                                    All Entrances
-                                </a>
-                            </p>
-                            <p className="control">
-                                <a
-                                    href="#overworld"
-                                    className={"button is-outlined is-small " + (overworldOnly ? "is-link" : "is-dark")}
-                                    onClick={() => {
-                                        trackGaEvent("config", "show overworld only");
-                                        setOverworldOnly(true);
-                                    }}
-                                >
-                                    Overworld and Dungeon Entrances
-                                </a>
-                            </p>
-                        </div>
-                    </div>
                     <div className="router-control config-control">
                         <div className="field is-grouped">
                             <p className="control">

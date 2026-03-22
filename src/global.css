@@ -146,13 +146,24 @@ html {
     display: flex;
     width: 95%;
     max-width: 1000px;
-    margin: auto;
-    justify-content: space-around;
-    padding: 15px;
+    margin: 0.55rem auto 0;
+    justify-content: center;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.5rem 0 0.8rem;
 }
 
 .config-control {
-    margin: 10px;
+    margin: 0;
+}
+
+.config-control .field.is-grouped {
+    margin-bottom: 0;
+}
+
+.config-control .button {
+    min-height: 38px;
+    justify-content: center;
 }
 
 .route-finder {
@@ -306,7 +317,7 @@ html {
 
 .admin-page {
     width: min(96%, 1480px);
-    margin: 1.25rem auto 1.5rem;
+    margin: 0.45rem auto 1.5rem;
 }
 
 .admin-shell {
@@ -339,7 +350,7 @@ html {
 
 .admin-main {
     border-radius: 24px;
-    padding: 1.25rem;
+    padding: 1.45rem;
     min-height: 60vh;
 }
 
@@ -484,23 +495,41 @@ html {
     color: #b8c2d9;
 }
 
+.admin-editor-copy {
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+    max-width: 46rem;
+    line-height: 1.5;
+}
+
 .admin-main-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.1rem;
+    gap: 1.25rem;
+    margin-bottom: 1.45rem;
 }
 
 .admin-main-title,
 .admin-editor-title {
     color: #ffffff;
     margin-bottom: 0.25rem !important;
+    line-height: 1.2;
 }
 
 .admin-header-actions {
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    gap: 0.75rem;
+    align-items: stretch;
+    width: min(100%, 540px);
+    margin: 0;
+}
+
+.admin-header-actions .button {
+    min-height: 44px;
+    justify-content: center;
+    margin: 0;
 }
 
 .admin-editor-stack {
@@ -511,13 +540,37 @@ html {
 
 .admin-editor-card {
     border-radius: 20px;
-    padding: 1.25rem;
+    padding: 1.45rem;
 }
 
 .admin-form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
+}
+
+.admin-editor-form-grid {
+    margin-top: 1.2rem;
+}
+
+.admin-action-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin: 1.25rem 0 0 !important;
+}
+
+.admin-action-row .button {
+    flex: 1 1 180px;
+    min-height: 42px;
+    min-width: 156px;
+    justify-content: center;
+    margin: 0;
+}
+
+.admin-login-actions {
+    margin-top: 1.5rem !important;
 }
 
 .admin-form-span-2 {
@@ -568,6 +621,10 @@ html {
 .admin-stat-label {
     color: #adc0e8;
     font-weight: 600;
+}
+
+.admin-sidebar-button {
+    min-height: 42px;
 }
 
 @media screen and (max-width: 768px) {

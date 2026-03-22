@@ -331,7 +331,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                 <div className="admin-editor-card">
                     <p className="admin-editor-kicker">Workspace</p>
                     <h2 className="title is-4 admin-editor-title">User Access</h2>
-                    <div className="admin-form-grid">
+                    <div className="admin-form-grid admin-editor-form-grid">
                         <div className="field">
                             <label className="label">Selected User</label>
                             <div className="select is-fullwidth">
@@ -349,7 +349,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                             <input className="input" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Password" />
                         </div>
                     </div>
-                    <div className="buttons mt-4">
+                    <div className="buttons admin-action-row">
                         <button className="button is-link" onClick={addUser}>Add User</button>
                         <button className="button is-warning is-light" onClick={updateUserPassword}>Update Password</button>
                         <button className="button is-danger is-light" onClick={deleteUser}>Delete User</button>
@@ -364,7 +364,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                     <p className="admin-editor-kicker">Workspace</p>
                     <h2 className="title is-4 admin-editor-title">Blob Sync</h2>
                     <p className="admin-editor-copy">Load or publish the current tracker config via Vercel Blob.</p>
-                    <div className="buttons mt-4">
+                    <div className="buttons admin-action-row">
                         <button className="button is-link is-light" onClick={loadFromBlob}>Load from Blob</button>
                         <button className="button is-primary" onClick={publishToBlob}>Publish to Blob</button>
                     </div>
@@ -379,7 +379,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                     <div className="admin-editor-card">
                         <p className="admin-editor-kicker">Regions</p>
                         <h2 className="title is-4 admin-editor-title">Manage Region</h2>
-                        <div className="admin-form-grid">
+                        <div className="admin-form-grid admin-editor-form-grid">
                             <div className="field admin-form-span-2">
                                 <label className="label">Region Name</label>
                                 <input
@@ -390,7 +390,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                                 />
                             </div>
                         </div>
-                        <div className="buttons mt-4">
+                        <div className="buttons admin-action-row">
                             <button className="button is-link" onClick={addRegion}>Add New Region</button>
                             <button className="button is-warning is-light" onClick={renameRegion} disabled={!activeRegion}>Rename Selected Region</button>
                             <button className="button is-danger is-light" onClick={deleteRegion} disabled={!activeRegion}>Delete Selected Region</button>
@@ -420,13 +420,13 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                     <p className="admin-editor-kicker">Region · {activeRegion}</p>
                     <h2 className="title is-4 admin-editor-title">{selectedTrackerItem || "New Tracker Item"}</h2>
                     <p className="admin-editor-copy">Define the tracker entries that should appear for this region.</p>
-                    <div className="admin-form-grid mt-4">
+                    <div className="admin-form-grid admin-editor-form-grid">
                         <div className="field admin-form-span-2">
                             <label className="label">Tracker Item Name</label>
                             <input className="input" value={trackerItemInput} onChange={e => setTrackerItemInput(e.target.value)} placeholder="Tracker item name" />
                         </div>
                     </div>
-                    <div className="buttons mt-4">
+                    <div className="buttons admin-action-row">
                         <button className="button is-link" onClick={addOrUpdateTrackerItem}>{selectedTrackerItem ? "Update Item" : "Add Item"}</button>
                         <button className="button is-light" onClick={startNewTrackerItem}>New Item</button>
                         <button className="button is-danger is-light" onClick={deleteTrackerItem} disabled={!selectedTrackerItem}>Delete Item</button>
@@ -440,7 +440,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                 <p className="admin-editor-kicker">Region · {activeRegion}</p>
                 <h2 className="title is-4 admin-editor-title">{selectedEntrance || "New Entrance"}</h2>
                 <p className="admin-editor-copy">Edit entrances for the selected region. Pick one from the middle list or create a new one.</p>
-                <div className="admin-form-grid mt-4">
+                <div className="admin-form-grid admin-editor-form-grid">
                     <div className="field admin-form-span-2">
                         <label className="label">Entrance Name</label>
                         <input className="input" value={entranceNameInput} onChange={e => setEntranceNameInput(e.target.value)} placeholder="Entrance name" />
@@ -458,7 +458,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                         <input className="input" value={entranceDisplayInput} onChange={e => setEntranceDisplayInput(e.target.value)} placeholder="Optional display label" />
                     </div>
                 </div>
-                <div className="buttons mt-4">
+                <div className="buttons admin-action-row">
                     <button className="button is-link" onClick={addOrUpdateEntrance}>{selectedEntrance ? "Update Entrance" : "Add Entrance"}</button>
                     <button className="button is-light" onClick={startNewEntrance}>New Entrance</button>
                     <button className="button is-danger is-light" onClick={deleteEntrance} disabled={!selectedEntrance}>Delete Entrance</button>
@@ -474,7 +474,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                     <div className="admin-login-card">
                         <p className="admin-editor-kicker">Admin</p>
                         <h2 className="title is-4 admin-editor-title">Sign in</h2>
-                        <div className="admin-form-grid mt-4">
+                        <div className="admin-form-grid admin-editor-form-grid">
                             <div className="field admin-form-span-2">
                                 <label className="label">Username</label>
                                 <input className="input" value={loginUser} onChange={e => setLoginUser(e.target.value)} placeholder="Username" />
@@ -485,7 +485,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                             </div>
                         </div>
                         {loginError ? <p className="has-text-danger mt-2">{loginError}</p> : null}
-                        <div className="buttons mt-5">
+                        <div className="buttons admin-action-row admin-login-actions">
                             <button className="button is-link" onClick={handleLogin}>Login</button>
                             <button className="button" onClick={onClose}>Back</button>
                         </div>
@@ -511,7 +511,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                                 </button>
                             ))}
                         </div>
-                        <button type="button" className="button is-link is-light is-fullwidth mt-3" onClick={() => {
+                        <button type="button" className="button is-link is-light is-fullwidth mt-3 admin-sidebar-button" onClick={() => {
                             setView("region");
                             setRegionNameInput("");
                         }}>

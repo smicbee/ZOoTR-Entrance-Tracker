@@ -36,7 +36,7 @@ const setActiveSeedIdStorage = (seedId) => {
     }
 };
 
-export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, openAdmin, showAdmin, ...props }) {
+export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, openAdmin, showAdmin, songsHeight = 0, ...props }) {
 
     const [message, setMessage] = useState("");
     const [currentMenuHeight, setCurrentMenuHeight] = useState(0);
@@ -323,6 +323,7 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ope
                         />
                         <div
                             className={`seed-sheet ${showSeedBar ? "is-open" : ""}`}
+                            style={{ bottom: `calc(${songsHeight}px + 0.75rem)` }}
                             onClick={(e) => e.stopPropagation()}
                         >
                             <div className="seed-sheet-header">
