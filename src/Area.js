@@ -80,6 +80,7 @@ export default function Area({
                             resetEntrance={props.resetEntrance}
                             toggleEntranceClear={props.toggleEntranceClear}
                             startAsChild={props.startAsChild}
+                            spawnPoints={props.spawnPoints}
                         />
                     );
                     if (i !== Object.keys(area.entrances).length - 1) {

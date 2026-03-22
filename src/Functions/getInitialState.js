@@ -3,19 +3,20 @@ import Songs from "../DataObjects/Songs";
 import EntranceTypes from "../DataObjects/EntranceTypes";
 
 export default function getInitialState(hyruleSource = Hyrule) {
-    let hyrule = JSON.parse(JSON.stringify(hyruleSource)); // master world state
-    let interiorEntrances = {}; // area/interior keys access array of location objects
-    let availableOverworldEntrances = {}; // available entrances of type Overworld
-    let availableDungeons = []; // dungeons not yet assigned to dungeon entrance
-    let availableHouses = []; // houses not yet assigned to house entrance
-    let availableHouseEntrances = {}; // areas and the houses within them
-    let availableGrottos = []; // grottos not yet assigned to grotto entrance
-    let availableGrottoEntrances = {}; // overworld grotto entrances
-    let songs = JSON.parse(JSON.stringify(Songs)); // songs state
-    let showRouteFinder = false; // hide route finder on start
-    let startAsChild = true; // default to starting as child
-    let overworldOnly = false; // show all entrances by default
-    let allOverworldEntrances = {}; // all entrances, never modified
+    let hyrule = JSON.parse(JSON.stringify(hyruleSource));
+    let interiorEntrances = {};
+    let availableOverworldEntrances = {};
+    let availableDungeons = [];
+    let availableHouses = [];
+    let availableHouseEntrances = {};
+    let availableGrottos = [];
+    let availableGrottoEntrances = {};
+    let songs = JSON.parse(JSON.stringify(Songs));
+    let showRouteFinder = false;
+    let startAsChild = true;
+    let overworldOnly = false;
+    let allOverworldEntrances = {};
+    let spawnPoints = { child: null, adult: null };
 
     Object.keys(hyrule).forEach(area => {
         availableOverworldEntrances[area] = [];
@@ -23,7 +24,6 @@ export default function getInitialState(hyruleSource = Hyrule) {
         allOverworldEntrances[area] = [];
 
         Object.keys(hyrule[area].entrances).forEach(entranceName => {
-
             let entrance = hyrule[area].entrances[entranceName];
             let type = entrance.type;
 
@@ -64,6 +64,7 @@ export default function getInitialState(hyruleSource = Hyrule) {
         overworldOnly,
         routeFinderStart: null,
         routeFinderEnd: null,
-        allOverworldEntrances
+        allOverworldEntrances,
+        spawnPoints
     };
 }

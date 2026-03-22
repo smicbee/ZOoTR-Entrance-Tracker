@@ -58,6 +58,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const [hyrule, setHyrule] = useLocalStorage("hyrule", init.hyrule);
     const [songs, setSongs] = useLocalStorage("songs", init.songs);
     const [showTracker, setShowTracker] = useLocalStorage("showTracker", false);
+    const [spawnPoints, setSpawnPoints] = useLocalStorage("spawnPoints", init.spawnPoints || { child: null, adult: null });
     const [locationChecks, setLocationChecks] = useLocalStorage("locationChecks", getInitialLocationChecks(normalizedLocationTrackerData));
     const [trackerFocusRegion] = useState(null);
     const [trackerModalRegion, setTrackerModalRegion] = useState(null);
@@ -300,6 +301,20 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     const openTrackerForArea = (areaName) => {
         const region = getTrackerRegionForArea(areaName);
         setTrackerModalRegion(region);
+    };
+
+    const setSpawnPoint = (age, selection) => {
+        if (!selection?.area || !selection?.entrance) {
+            return;
+        }
+        let _hyrule = hyrule;
+        let _interiorEntrances = interiorEntrances;
+        [_hyrule, _interiorEntrances] = setAreaToAccessible(_hyrule, _interiorEntrances, selection.area);
+        setHyrule({ ..._hyrule });
+        setInteriorEntrances({ ..._interiorEntrances });
+        setSpawnPoints((prev) => ({ ...prev, [age]: { area: selection.area, entrance: selection.entrance } }));
+        setStartAsChild(age === "child");
+        trackGaEvent("tracker", `set ${age} spawn`);
     };
 
     const getDerivedConfigEntranceMap = (includeAssigned = false) => {
@@ -1006,18 +1021,13 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                                 return <PromptForLocationEntrance
                                     key={i}
                                     locationToPromptFor={location}
-                                    availableEntrances={
-                                        Houses[location] !== undefined ?
-                                            availableHouseEntrances :
-                                            availableGrottoEntrances
-                                    }
+                                    availableEntrances={location === "__spawn__" ? derivedAllConfigEntrances : (Houses[location] !== undefined ? availableHouseEntrances : availableGrottoEntrances)}
                                     type={Houses[location] !== undefined ? EntranceTypes.House : EntranceTypes.Grotto}
                                     setEntrance={setEntrance}
-                                    showInitialAgeCheck={
-                                        (startAsChild && interiorEntrances[Houses["Link's House"]] === undefined) ||
-                                        (!startAsChild && interiorEntrances[Houses["Temple of Time"]] === undefined)
-                                    }
+                                    setSpawnPoint={setSpawnPoint}
+                                    showInitialAgeCheck={location === "__spawn__"}
                                     startAsChild={startAsChild}
+                                    setStartAsChild={setStartAsChild}
                                     toggleStartAsChild={() => setStartAsChild(!startAsChild)}
                                 />
                             })
@@ -1052,6 +1062,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                                 toggleEntranceClear={toggleEntranceClear}
                                 overworldOnly={overworldOnly}
                                 startAsChild={startAsChild}
+                                spawnPoints={spawnPoints}
                                 toggleAreaExpanded={toggleAreaExpanded}
                                 trackerCount={trackerCounts.checked}
                                 trackerTotal={trackerCounts.total}

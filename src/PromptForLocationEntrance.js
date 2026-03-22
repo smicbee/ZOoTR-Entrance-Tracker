@@ -1,70 +1,74 @@
 import React, { useState } from "react";
 
 export default function PromptForLocationEntrance({ locationToPromptFor, showInitialAgeCheck, availableEntrances, startAsChild, type, ...props }) {
-
     const [selectedLocation, setSelectedLocation] = useState("");
+    const [selectedStartAge, setSelectedStartAge] = useState(startAsChild ? "child" : "adult");
+    const isSpawnPrompt = locationToPromptFor === "__spawn__";
 
     const setInteriorToAreaAndEntrance = () => {
         if (selectedLocation === "") {
             return;
         }
-        props.setEntrance(JSON.parse(selectedLocation), { interior: locationToPromptFor });
+        if (isSpawnPrompt) {
+            props.setSpawnPoint(selectedStartAge, JSON.parse(selectedLocation));
+        } else {
+            props.setEntrance(JSON.parse(selectedLocation), { interior: locationToPromptFor });
+        }
         setSelectedLocation("");
     };
 
-    if (!availableEntrances) {
-        return null;
-    }
-
     return (
-        <div className="prompt columns">
-            <div className="column">
+        <div className="prompt card has-background-dark">
+            <div className="prompt-field column is-full">
                 <h5 className="prompt-field is-size-5 has-text-centered prompt-question">
-                    Where is {locationToPromptFor}?
+                    {isSpawnPrompt ? "Choose your start spawn" : `Where is ${locationToPromptFor}?`}
                 </h5>
             </div>
-            <div className="prompt-field field column is-grouped has-addons has-addons-centered is-vcentered">
-                <div className="select is-small control">
-                    <select
-                        onChange={e => setSelectedLocation(e.target.value)}
-                        value={selectedLocation}
-                    >
-                        <option value="">Select a location</option>
-                        {Object.keys(availableEntrances).sort().map((area, i) => {
-                            if (availableEntrances[area].length === 0) {
+            <div className="prompt-field prompt-select-field column is-full is-centered">
+                <div className="select prompt-select is-fullwidth">
+                    <select value={selectedLocation} onChange={event => setSelectedLocation(event.target.value)}>
+                        <option value="">Choose entrance...</option>
+                        {Object.keys(availableEntrances).sort().map((optgroupArea, i) => {
+                            if (availableEntrances[optgroupArea].length === 0) {
                                 return null;
                             }
-                            return <optgroup
-                                key={i}
-                                label={area}
-                            >
-                                {availableEntrances[area].sort().map((entrance, i) => {
+                            return <optgroup key={i} label={optgroupArea}>
+                                {availableEntrances[optgroupArea].sort().map((optgroupEntrance, j) => {
                                     return <option
-                                        key={i}
-                                        value={JSON.stringify({ area, entrance, type })}
+                                        key={j}
+                                        value={JSON.stringify({ area: optgroupArea, entrance: optgroupEntrance, type })}
                                     >
-                                        {entrance}
+                                        {optgroupEntrance}
                                     </option>
                                 })}
                             </optgroup>
-                        })
-                        }
+                        })}
                     </select>
                 </div>
+            </div>
+            <div className="prompt-field has-text-centered column">
                 <button className="button is-small control" onClick={setInteriorToAreaAndEntrance}>
-                    Add {locationToPromptFor}
+                    {isSpawnPrompt ? `Set ${selectedStartAge === "child" ? "Child" : "Adult"} Spawn` : `Add ${locationToPromptFor}`}
                 </button>
             </div>
             {showInitialAgeCheck &&
                 <div className="prompt-field has-text-centered column">
-                    <button
-                        className="button is-small"
-                        onClick={props.toggleStartAsChild}
-                    >
-                        Start as {startAsChild ? "Adult" : "Child"}
-                    </button>
+                    {isSpawnPrompt ? (
+                        <div className="buttons is-centered are-small">
+                            <button className={`button is-small ${selectedStartAge === "child" ? "is-link" : ""}`} onClick={() => { setSelectedStartAge("child"); props.setStartAsChild(true); }}>
+                                Child Start
+                            </button>
+                            <button className={`button is-small ${selectedStartAge === "adult" ? "is-link" : ""}`} onClick={() => { setSelectedStartAge("adult"); props.setStartAsChild(false); }}>
+                                Adult Start
+                            </button>
+                        </div>
+                    ) : (
+                        <button className="button is-small" onClick={props.toggleStartAsChild}>
+                            Start as {startAsChild ? "Adult" : "Child"}
+                        </button>
+                    )}
                 </div>
             }
         </div>
-    )
+    );
 }
