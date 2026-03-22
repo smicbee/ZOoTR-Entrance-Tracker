@@ -242,6 +242,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         return () => {
             isCancelled = true;
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [didHydrateFromBlob]);
 
     const exportState = () => ({
