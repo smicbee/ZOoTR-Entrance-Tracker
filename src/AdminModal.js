@@ -590,16 +590,14 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
 
                     <section className="admin-main">
                         <div className="admin-main-header">
-                            <div className="admin-main-header-row">
-                                <div>
-                                    <p className="admin-editor-kicker">ZOoTR Admin</p>
-                                    <h1 className="title is-3 admin-main-title">Config Editor</h1>
-                                </div>
-                                <div className="buttons admin-header-actions">
-                                    <button className="button is-primary" onClick={saveConfig}>Save Config</button>
-                                    <button className="button is-link is-light" onClick={saveConfigAndClose}>Save & Close</button>
-                                    <button className="button" onClick={onClose}>Close</button>
-                                </div>
+                            <div className="admin-main-title-block">
+                                <p className="admin-editor-kicker">ZOoTR Admin</p>
+                                <h1 className="title is-3 admin-main-title">Config Editor</h1>
+                            </div>
+                            <div className="buttons admin-header-actions">
+                                <button className="button is-primary" onClick={saveConfig}>Save Config</button>
+                                <button className="button is-link is-light" onClick={saveConfigAndClose}>Save & Close</button>
+                                <button className="button" onClick={onClose}>Close</button>
                             </div>
                             <p className="admin-editor-copy admin-header-copy">Left: choose a region. Middle: choose entrances, tracker items, or workspace tools. Center: edit the selected item.</p>
                         </div>

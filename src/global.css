@@ -683,10 +683,6 @@ html {
         flex-direction: column;
     }
 
-    .admin-main-header-row {
-        flex-direction: column;
-    }
-
     .admin-header-actions {
         width: 100%;
         justify-content: stretch;
