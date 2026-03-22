@@ -49,6 +49,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
     const [newPassword, setNewPassword] = useState("");
     const [selectedUser, setSelectedUser] = useState("admin");
     const [blobStatus, setBlobStatus] = useState("");
+    const [isSavingConfig, setIsSavingConfig] = useState(false);
 
     const regionNames = useMemo(
         () => Object.keys(draftConfig.hyrule || {}).sort((a, b) => a.localeCompare(b)),
@@ -290,13 +291,34 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
         setSelectedUser("admin");
     };
 
-    const saveConfig = () => {
-        onSaveConfig(clone(draftConfig));
+    const persistConfigToBlob = async ({ closeAfterSave = false } = {}) => {
+        if (isSavingConfig) {
+            return false;
+        }
+        const configToSave = clone(draftConfig);
+        setIsSavingConfig(true);
+        setBlobStatus("Saving config to blob...");
+        const result = await onPublishBlobConfig(configToSave);
+        if (!result.ok) {
+            setBlobStatus(result.error || "Blob save failed");
+            setIsSavingConfig(false);
+            return false;
+        }
+        onSaveConfig(configToSave);
+        setBlobStatus(`Saved to blob: ${result.updatedAt}`);
+        setIsSavingConfig(false);
+        if (closeAfterSave) {
+            onClose();
+        }
+        return true;
     };
 
-    const saveConfigAndClose = () => {
-        saveConfig();
-        onClose();
+    const saveConfig = async () => {
+        await persistConfigToBlob();
+    };
+
+    const saveConfigAndClose = async () => {
+        await persistConfigToBlob({ closeAfterSave: true });
     };
 
     const loadFromBlob = async () => {
@@ -315,14 +337,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
     };
 
     const publishToBlob = async () => {
-        setBlobStatus("Publishing config to blob...");
-        const result = await onPublishBlobConfig(clone(draftConfig));
-        if (!result.ok) {
-            setBlobStatus(result.error || "Blob publish failed");
-            return;
-        }
-        onSaveConfig(clone(draftConfig));
-        setBlobStatus(`Published: ${result.updatedAt}`);
+        await persistConfigToBlob();
     };
 
     const renderMainContent = () => {
@@ -595,9 +610,9 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
                                 <h1 className="title is-3 admin-main-title">Config Editor</h1>
                             </div>
                             <div className="buttons admin-header-actions">
-                                <button className="button is-primary" onClick={saveConfig}>Save Config</button>
-                                <button className="button is-link is-light" onClick={saveConfigAndClose}>Save & Close</button>
-                                <button className="button" onClick={onClose}>Close</button>
+                                <button className="button is-primary" onClick={saveConfig} disabled={isSavingConfig}>{isSavingConfig ? "Saving..." : "Save Config"}</button>
+                                <button className="button is-link is-light" onClick={saveConfigAndClose} disabled={isSavingConfig}>{isSavingConfig ? "Saving..." : "Save & Close"}</button>
+                                <button className="button" onClick={onClose} disabled={isSavingConfig}>Close</button>
                             </div>
                             <p className="admin-editor-copy admin-header-copy">Left: choose a region. Middle: choose entrances, tracker items, or workspace tools. Center: edit the selected item.</p>
                         </div>
