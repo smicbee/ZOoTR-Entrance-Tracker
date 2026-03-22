@@ -788,6 +788,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 importState={applyState}
                 currentState={exportState()}
                 trackGaEvent={trackGaEvent}
+                showAdmin={showAdmin}
                 openAdmin={() => setShowAdmin(true)}
             />
 
@@ -904,115 +905,119 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 </div>
             }
 
-            {showRouteFinder ?
-                <RouteFinder
-                    availableLocations={interiorEntrances}
-                    toggleEntranceClear={toggleEntranceClear}
-                    hyrule={hyrule}
-                    start={routeFinderStart}
-                    end={routeFinderEnd}
-                    setRouteFinderStart={setRouteFinderStart}
-                    setRouteFinderEnd={setRouteFinderEnd}
-                    trackGaEvent={trackGaEvent}
+            {showAdmin ? (
+                <AdminModal
+                    isOpen={showAdmin}
+                    onClose={() => setShowAdmin(false)}
+                    trackerConfig={trackerConfig}
+                    onSaveConfig={saveTrackerConfig}
+                    onLoadBlobConfig={loadBlobConfig}
+                    onPublishBlobConfig={publishBlobConfig}
                 />
-                :
-                ""
-            }
-
-            {showTracker ?
-                <TrackerPanel
-                    locationChecks={locationChecks}
-                    toggleLocationCheck={toggleLocationCheck}
-                    focusRegion={trackerFocusRegion}
-                    locationTrackerData={trackerConfig.locationTrackerData}
-                />
-                :
-                ""
-            }
-
-            <TrackerRegionModal
-                region={trackerModalRegion}
-                isOpen={!!trackerModalRegion}
-                onClose={() => setTrackerModalRegion(null)}
-                locationChecks={locationChecks}
-                toggleLocationCheck={toggleLocationCheck}
-            />
-
-            <AdminModal
-                isOpen={showAdmin}
-                onClose={() => setShowAdmin(false)}
-                trackerConfig={trackerConfig}
-                onSaveConfig={saveTrackerConfig}
-                onLoadBlobConfig={loadBlobConfig}
-                onPublishBlobConfig={publishBlobConfig}
-            />
-
-            <div className="user-prompts">
-                {locationsToPromptFor.length > 0 &&
-                    locationsToPromptFor.map((location, i) => {
-                        return <PromptForLocationEntrance
-                            key={i}
-                            locationToPromptFor={location}
-                            availableEntrances={
-                                Houses[location] !== undefined ?
-                                    availableHouseEntrances :
-                                    availableGrottoEntrances
-                            }
-                            type={Houses[location] !== undefined ? EntranceTypes.House : EntranceTypes.Grotto}
-                            setEntrance={setEntrance}
-                            showInitialAgeCheck={
-                                (startAsChild && interiorEntrances[Houses["Link's House"]] === undefined) ||
-                                (!startAsChild && interiorEntrances[Houses["Temple of Time"]] === undefined)
-                            }
-                            startAsChild={startAsChild}
-                            toggleStartAsChild={() => setStartAsChild(!startAsChild)}
+            ) : (
+                <>
+                    {showRouteFinder ?
+                        <RouteFinder
+                            availableLocations={interiorEntrances}
+                            toggleEntranceClear={toggleEntranceClear}
+                            hyrule={hyrule}
+                            start={routeFinderStart}
+                            end={routeFinderEnd}
+                            setRouteFinderStart={setRouteFinderStart}
+                            setRouteFinderEnd={setRouteFinderEnd}
+                            trackGaEvent={trackGaEvent}
                         />
-                    })
-                }
-            </div>
-
-            <div className="areas-container is-flex-desktop is-flex-tablet is-multiline flex-wraps">
-                {/* iterate through the areas of Hyrule */}
-                {hyrule !== undefined && Object.keys(hyrule).sort().map((areaName, i) => {
-                    // get the current areas object from state
-                    let area = hyrule[areaName];
-                    // if it's not accessible, we don't want to display it
-                    if (!area.isAccessible) {
-                        return null;
+                        :
+                        ""
                     }
 
-                    const trackerCounts = getTrackerCountsForArea(areaName);
+                    {showTracker ?
+                        <TrackerPanel
+                            locationChecks={locationChecks}
+                            toggleLocationCheck={toggleLocationCheck}
+                            focusRegion={trackerFocusRegion}
+                            locationTrackerData={trackerConfig.locationTrackerData}
+                        />
+                        :
+                        ""
+                    }
 
-                    return <Area
-                        key={i}
-                        area={area}
-                        availableDungeons={availableDungeons}
-                        availableHouses={availableHouses}
-                        availableOverworldEntrances={availableOverworldEntrances}
-                        availableGrottos={availableGrottos}
-                        allOverworldEntrances={allOverworldEntrances}
-                        areaName={areaName}
-                        setEntrance={setEntrance}
-                        resetEntrance={resetEntrance}
-                        toggleEntranceClear={toggleEntranceClear}
-                        overworldOnly={overworldOnly}
-                        startAsChild={startAsChild}
-                        toggleAreaExpanded={toggleAreaExpanded}
-                        trackerCount={trackerCounts.checked}
-                        trackerTotal={trackerCounts.total}
-                        openTrackerForArea={openTrackerForArea}
+                    <TrackerRegionModal
+                        region={trackerModalRegion}
+                        isOpen={!!trackerModalRegion}
+                        onClose={() => setTrackerModalRegion(null)}
+                        locationChecks={locationChecks}
+                        toggleLocationCheck={toggleLocationCheck}
                     />
-                })}
-            </div>
 
-            <div className="bottom-padding" style={{ height: songsHeight }} />
+                    <div className="user-prompts">
+                        {locationsToPromptFor.length > 0 &&
+                            locationsToPromptFor.map((location, i) => {
+                                return <PromptForLocationEntrance
+                                    key={i}
+                                    locationToPromptFor={location}
+                                    availableEntrances={
+                                        Houses[location] !== undefined ?
+                                            availableHouseEntrances :
+                                            availableGrottoEntrances
+                                    }
+                                    type={Houses[location] !== undefined ? EntranceTypes.House : EntranceTypes.Grotto}
+                                    setEntrance={setEntrance}
+                                    showInitialAgeCheck={
+                                        (startAsChild && interiorEntrances[Houses["Link's House"]] === undefined) ||
+                                        (!startAsChild && interiorEntrances[Houses["Temple of Time"]] === undefined)
+                                    }
+                                    startAsChild={startAsChild}
+                                    toggleStartAsChild={() => setStartAsChild(!startAsChild)}
+                                />
+                            })
+                        }
+                    </div>
 
-            {/* display songs that can be collected and may open new areas */}
-            {Object.keys(interiorEntrances).length > 1 && <Songs
-                toggleSongCollected={toggleSongCollected}
-                setSongsHeight={setSongsHeight}
-                songs={songs}
-            />}
+                    <div className="areas-container is-flex-desktop is-flex-tablet is-multiline flex-wraps">
+                        {/* iterate through the areas of Hyrule */}
+                        {hyrule !== undefined && Object.keys(hyrule).sort().map((areaName, i) => {
+                            // get the current areas object from state
+                            let area = hyrule[areaName];
+                            // if it's not accessible, we don't want to display it
+                            if (!area.isAccessible) {
+                                return null;
+                            }
+
+                            const trackerCounts = getTrackerCountsForArea(areaName);
+
+                            return <Area
+                                key={i}
+                                area={area}
+                                availableDungeons={availableDungeons}
+                                availableHouses={availableHouses}
+                                availableOverworldEntrances={availableOverworldEntrances}
+                                availableGrottos={availableGrottos}
+                                allOverworldEntrances={allOverworldEntrances}
+                                areaName={areaName}
+                                setEntrance={setEntrance}
+                                resetEntrance={resetEntrance}
+                                toggleEntranceClear={toggleEntranceClear}
+                                overworldOnly={overworldOnly}
+                                startAsChild={startAsChild}
+                                toggleAreaExpanded={toggleAreaExpanded}
+                                trackerCount={trackerCounts.checked}
+                                trackerTotal={trackerCounts.total}
+                                openTrackerForArea={openTrackerForArea}
+                            />
+                        })}
+                    </div>
+
+                    <div className="bottom-padding" style={{ height: songsHeight }} />
+
+                    {/* display songs that can be collected and may open new areas */}
+                    {Object.keys(interiorEntrances).length > 1 && <Songs
+                        toggleSongCollected={toggleSongCollected}
+                        setSongsHeight={setSongsHeight}
+                        songs={songs}
+                    />}
+                </>
+            )}
         </div>
     );
 }

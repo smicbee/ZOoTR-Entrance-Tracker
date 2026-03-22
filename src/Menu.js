@@ -36,7 +36,7 @@ const setActiveSeedIdStorage = (seedId) => {
     }
 };
 
-export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, openAdmin, ...props }) {
+export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, openAdmin, showAdmin, ...props }) {
 
     const [message, setMessage] = useState("");
     const [currentMenuHeight, setCurrentMenuHeight] = useState(0);
@@ -267,14 +267,14 @@ export default function Menu({ showRouteFinder, overworldOnly, trackGaEvent, ope
                             </button>
                             <button
                                 type="button"
-                                className="button is-small is-dark is-outlined"
+                                className={`button is-small is-dark is-outlined admin-open-button ${showAdmin ? "is-active" : ""}`}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
                                     openAdmin();
                                 }}
                             >
-                                Admin
+                                {showAdmin ? "Admin Open" : "Admin"}
                             </button>
                             <a
                                 href="https://github.com/brakkum/ZOoTR-Entrance-Tracker"

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import EntranceTypes from "./DataObjects/EntranceTypes";
 
 const USERS_KEY = "zootr-admin-users-v1";
@@ -35,7 +35,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
     const [loginUser, setLoginUser] = useState("admin");
     const [loginPass, setLoginPass] = useState("admin");
     const [loginError, setLoginError] = useState("");
-    const [tab, setTab] = useState("regions");
+    const [view, setView] = useState("entrances");
     const [draftConfig, setDraftConfig] = useState(() => clone(trackerConfig));
     const [selectedRegion, setSelectedRegion] = useState("");
     const [selectedEntrance, setSelectedEntrance] = useState("");
@@ -50,10 +50,88 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
     const [selectedUser, setSelectedUser] = useState("admin");
     const [blobStatus, setBlobStatus] = useState("");
 
-    const regionNames = useMemo(() => Object.keys(draftConfig.hyrule || {}), [draftConfig]);
+    const regionNames = useMemo(
+        () => Object.keys(draftConfig.hyrule || {}).sort((a, b) => a.localeCompare(b)),
+        [draftConfig]
+    );
+
     const activeRegion = selectedRegion || regionNames[0] || "";
-    const activeEntrances = activeRegion ? Object.keys(draftConfig.hyrule?.[activeRegion]?.entrances || {}) : [];
-    const activeTrackerItems = activeRegion ? (draftConfig.locationTrackerData?.[activeRegion] || []) : [];
+    const activeEntrances = useMemo(
+        () => activeRegion ? Object.keys(draftConfig.hyrule?.[activeRegion]?.entrances || {}).sort((a, b) => a.localeCompare(b)) : [],
+        [draftConfig, activeRegion]
+    );
+    const activeTrackerItems = useMemo(
+        () => activeRegion ? [...(draftConfig.locationTrackerData?.[activeRegion] || [])].sort((a, b) => a.name.localeCompare(b.name)) : [],
+        [draftConfig, activeRegion]
+    );
+
+    useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+        const nextConfig = clone(trackerConfig);
+        const firstRegion = Object.keys(nextConfig.hyrule || {}).sort((a, b) => a.localeCompare(b))[0] || "";
+        setDraftConfig(nextConfig);
+        setSelectedRegion(prev => (prev && nextConfig.hyrule?.[prev]) ? prev : firstRegion);
+        setSelectedEntrance("");
+        setSelectedTrackerItem("");
+        setRegionNameInput("");
+        setEntranceNameInput("");
+        setEntranceTypeInput(EntranceTypes.Overworld);
+        setEntranceDisplayInput("");
+        setTrackerItemInput("");
+        setBlobStatus("");
+        setView("entrances");
+    }, [isOpen, trackerConfig]);
+
+    useEffect(() => {
+        if (!selectedRegion && regionNames.length) {
+            setSelectedRegion(regionNames[0]);
+        }
+    }, [regionNames, selectedRegion]);
+
+    const updateConfig = (updater) => {
+        setDraftConfig(prev => clone(updater(clone(prev))));
+    };
+
+    const startNewEntrance = () => {
+        setView("entrances");
+        setSelectedEntrance("");
+        setEntranceNameInput("");
+        setEntranceDisplayInput("");
+        setEntranceTypeInput(EntranceTypes.Overworld);
+    };
+
+    const startNewTrackerItem = () => {
+        setView("tracker");
+        setSelectedTrackerItem("");
+        setTrackerItemInput("");
+    };
+
+    const handleSelectRegion = (region) => {
+        setSelectedRegion(region);
+        setSelectedEntrance("");
+        setSelectedTrackerItem("");
+        setRegionNameInput(region);
+        if (view === "users" || view === "blob") {
+            setView("entrances");
+        }
+    };
+
+    const selectEntrance = (name) => {
+        const entrance = draftConfig.hyrule?.[activeRegion]?.entrances?.[name];
+        setView("entrances");
+        setSelectedEntrance(name);
+        setEntranceNameInput(name);
+        setEntranceTypeInput(entrance?.type || EntranceTypes.Overworld);
+        setEntranceDisplayInput(entrance?.display || "");
+    };
+
+    const selectTrackerItem = (name) => {
+        setView("tracker");
+        setSelectedTrackerItem(name);
+        setTrackerItemInput(name);
+    };
 
     if (!isOpen) return null;
 
@@ -65,13 +143,9 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
         }
         setIsLoggedIn(true);
         setLoginError("");
-        setDraftConfig(clone(trackerConfig));
-        const firstRegion = Object.keys(trackerConfig.hyrule || {})[0] || "";
+        const firstRegion = Object.keys(trackerConfig.hyrule || {}).sort((a, b) => a.localeCompare(b))[0] || "";
         setSelectedRegion(firstRegion);
-    };
-
-    const updateConfig = (updater) => {
-        setDraftConfig(prev => clone(updater(clone(prev))));
+        setView("entrances");
     };
 
     const addRegion = () => {
@@ -88,7 +162,8 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             return cfg;
         });
         setSelectedRegion(name);
-        setRegionNameInput("");
+        setRegionNameInput(name);
+        setView("region");
     };
 
     const renameRegion = () => {
@@ -109,7 +184,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             return cfg;
         });
         setSelectedRegion(name);
-        setRegionNameInput("");
+        setRegionNameInput(name);
     };
 
     const deleteRegion = () => {
@@ -122,7 +197,12 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             });
             return cfg;
         });
-        setSelectedRegion("");
+        const remaining = regionNames.filter(name => name !== activeRegion);
+        setSelectedRegion(remaining[0] || "");
+        setSelectedEntrance("");
+        setSelectedTrackerItem("");
+        setRegionNameInput("");
+        setView("entrances");
     };
 
     const addOrUpdateEntrance = () => {
@@ -137,16 +217,14 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             region.entrances[name] = {
                 ...existing,
                 type: entranceTypeInput,
-                display: entranceDisplayInput || undefined,
-                clear: false,
+                display: entranceDisplayInput.trim() || undefined,
+                clear: existing.clear || false,
                 leadsTo: existing.leadsTo || null,
                 interior: existing.interior || null
             };
             return cfg;
         });
         setSelectedEntrance(name);
-        setEntranceNameInput("");
-        setEntranceDisplayInput("");
     };
 
     const deleteEntrance = () => {
@@ -155,7 +233,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             delete cfg.hyrule[activeRegion].entrances[selectedEntrance];
             return cfg;
         });
-        setSelectedEntrance("");
+        startNewEntrance();
     };
 
     const addOrUpdateTrackerItem = () => {
@@ -173,7 +251,6 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             return cfg;
         });
         setSelectedTrackerItem(name);
-        setTrackerItemInput("");
     };
 
     const deleteTrackerItem = () => {
@@ -182,7 +259,7 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             cfg.locationTrackerData[activeRegion] = (cfg.locationTrackerData[activeRegion] || []).filter(i => i.name !== selectedTrackerItem);
             return cfg;
         });
-        setSelectedTrackerItem("");
+        startNewTrackerItem();
     };
 
     const addUser = () => {
@@ -213,8 +290,12 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
         setSelectedUser("admin");
     };
 
-    const saveConfigAndClose = () => {
+    const saveConfig = () => {
         onSaveConfig(clone(draftConfig));
+    };
+
+    const saveConfigAndClose = () => {
+        saveConfig();
         onClose();
     };
 
@@ -226,8 +307,10 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             return;
         }
         setDraftConfig(clone(result.config));
-        const firstRegion = Object.keys(result.config?.hyrule || {})[0] || "";
+        const firstRegion = Object.keys(result.config?.hyrule || {}).sort((a, b) => a.localeCompare(b))[0] || "";
         setSelectedRegion(firstRegion);
+        setSelectedEntrance("");
+        setSelectedTrackerItem("");
         setBlobStatus("Blob config loaded");
     };
 
@@ -242,147 +325,286 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
         setBlobStatus(`Published: ${result.updatedAt}`);
     };
 
-    return (
-        <div className="tracker-modal-overlay" onClick={onClose}>
-            <div className="tracker-modal-card admin-modal-card" onClick={(e) => e.stopPropagation()}>
-                {!isLoggedIn ? (
-                    <div className="tracker-modal-content admin-login-panel">
-                        <h3 className="title is-4">Admin Login</h3>
-                        <input className="input" value={loginUser} onChange={e => setLoginUser(e.target.value)} placeholder="Username" />
-                        <input className="input" type="password" value={loginPass} onChange={e => setLoginPass(e.target.value)} placeholder="Password" />
-                        {loginError ? <p className="has-text-danger">{loginError}</p> : null}
-                        <div className="buttons">
-                            <button className="button is-link" onClick={handleLogin}>Login</button>
-                            <button className="button" onClick={onClose}>Cancel</button>
+    const renderMainContent = () => {
+        if (view === "users") {
+            return (
+                <div className="admin-editor-card">
+                    <p className="admin-editor-kicker">Workspace</p>
+                    <h2 className="title is-4 admin-editor-title">User Access</h2>
+                    <div className="admin-form-grid">
+                        <div className="field">
+                            <label className="label">Selected User</label>
+                            <div className="select is-fullwidth">
+                                <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
+                                    {users.map(user => <option key={user.username} value={user.username}>{user.username}</option>)}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="field">
+                            <label className="label">New Username</label>
+                            <input className="input" value={newUsername} onChange={e => setNewUsername(e.target.value)} placeholder="New username" />
+                        </div>
+                        <div className="field">
+                            <label className="label">Password</label>
+                            <input className="input" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Password" />
                         </div>
                     </div>
-                ) : (
-                    <>
-                        <div className="tracker-modal-header">
-                            <div>
-                                <h3 className="title is-5 has-text-white tracker-modal-title">Admin</h3>
-                                <p className="tracker-modal-subtitle">Edit config + users</p>
-                            </div>
-                            <button type="button" className="button is-small is-dark is-outlined tracker-modal-close" onClick={onClose}>✕</button>
-                        </div>
-                        <div className="tracker-modal-content admin-content">
-                            <div className="tabs is-boxed is-small">
-                                <ul>
-                                    <li className={tab === "regions" ? "is-active" : ""}><a href="#regions" onClick={e => { e.preventDefault(); setTab("regions"); }}>Regions</a></li>
-                                    <li className={tab === "entrances" ? "is-active" : ""}><a href="#entrances" onClick={e => { e.preventDefault(); setTab("entrances"); }}>Entrances</a></li>
-                                    <li className={tab === "tracker" ? "is-active" : ""}><a href="#tracker" onClick={e => { e.preventDefault(); setTab("tracker"); }}>Tracker Items</a></li>
-                                    <li className={tab === "users" ? "is-active" : ""}><a href="#users" onClick={e => { e.preventDefault(); setTab("users"); }}>User Access</a></li>
-                                    <li className={tab === "blob" ? "is-active" : ""}><a href="#blob" onClick={e => { e.preventDefault(); setTab("blob"); }}>Blob</a></li>
-                                </ul>
-                            </div>
+                    <div className="buttons mt-4">
+                        <button className="button is-link" onClick={addUser}>Add User</button>
+                        <button className="button is-warning is-light" onClick={updateUserPassword}>Update Password</button>
+                        <button className="button is-danger is-light" onClick={deleteUser}>Delete User</button>
+                    </div>
+                </div>
+            );
+        }
 
-                            {(tab === "regions" || tab === "entrances" || tab === "tracker") && (
-                                <div className="field">
-                                    <label className="label">Region</label>
-                                    <div className="select is-fullwidth">
-                                        <select value={activeRegion} onChange={e => setSelectedRegion(e.target.value)}>
-                                            {regionNames.map(name => <option key={name} value={name}>{name}</option>)}
-                                        </select>
-                                    </div>
-                                </div>
-                            )}
+        if (view === "blob") {
+            return (
+                <div className="admin-editor-card">
+                    <p className="admin-editor-kicker">Workspace</p>
+                    <h2 className="title is-4 admin-editor-title">Blob Sync</h2>
+                    <p className="admin-editor-copy">Load or publish the current tracker config via Vercel Blob.</p>
+                    <div className="buttons mt-4">
+                        <button className="button is-link is-light" onClick={loadFromBlob}>Load from Blob</button>
+                        <button className="button is-primary" onClick={publishToBlob}>Publish to Blob</button>
+                    </div>
+                    {blobStatus ? <div className="notification is-dark admin-inline-note mt-4">{blobStatus}</div> : null}
+                </div>
+            );
+        }
 
-                            {tab === "regions" && (
-                                <div className="admin-grid">
-                                    <input className="input" value={regionNameInput} onChange={e => setRegionNameInput(e.target.value)} placeholder="Region name" />
-                                    <div className="buttons">
-                                        <button className="button is-link is-light" onClick={addRegion}>Add</button>
-                                        <button className="button is-warning is-light" onClick={renameRegion}>Rename</button>
-                                        <button className="button is-danger is-light" onClick={deleteRegion}>Delete</button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {tab === "entrances" && activeRegion && (
-                                <div className="admin-grid">
-                                    <div className="select is-fullwidth">
-                                        <select value={selectedEntrance} onChange={e => {
-                                            const value = e.target.value;
-                                            setSelectedEntrance(value);
-                                            const ent = draftConfig.hyrule[activeRegion].entrances[value];
-                                            setEntranceNameInput(value);
-                                            setEntranceTypeInput(ent?.type || EntranceTypes.Overworld);
-                                            setEntranceDisplayInput(ent?.display || "");
-                                        }}>
-                                            <option value="">Select entrance</option>
-                                            {activeEntrances.map(name => <option key={name} value={name}>{name}</option>)}
-                                        </select>
-                                    </div>
-                                    <input className="input" value={entranceNameInput} onChange={e => setEntranceNameInput(e.target.value)} placeholder="Entrance name" />
-                                    <div className="select is-fullwidth">
-                                        <select value={entranceTypeInput} onChange={e => setEntranceTypeInput(e.target.value)}>
-                                            {Object.values(EntranceTypes).map(type => <option key={type} value={type}>{type}</option>)}
-                                        </select>
-                                    </div>
-                                    <input className="input" value={entranceDisplayInput} onChange={e => setEntranceDisplayInput(e.target.value)} placeholder="Display label (optional)" />
-                                    <div className="buttons">
-                                        <button className="button is-link is-light" onClick={addOrUpdateEntrance}>Add / Update</button>
-                                        <button className="button is-danger is-light" onClick={deleteEntrance}>Delete</button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {tab === "tracker" && activeRegion && (
-                                <div className="admin-grid">
-                                    <div className="select is-fullwidth">
-                                        <select value={selectedTrackerItem} onChange={e => {
-                                            const value = e.target.value;
-                                            setSelectedTrackerItem(value);
-                                            setTrackerItemInput(value);
-                                        }}>
-                                            <option value="">Select tracker item</option>
-                                            {activeTrackerItems.map(item => <option key={item.name} value={item.name}>{item.name}</option>)}
-                                        </select>
-                                    </div>
-                                    <input className="input" value={trackerItemInput} onChange={e => setTrackerItemInput(e.target.value)} placeholder="Tracker item name" />
-                                    <div className="buttons">
-                                        <button className="button is-link is-light" onClick={addOrUpdateTrackerItem}>Add / Update</button>
-                                        <button className="button is-danger is-light" onClick={deleteTrackerItem}>Delete</button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {tab === "users" && (
-                                <div className="admin-grid">
-                                    <div className="select is-fullwidth">
-                                        <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
-                                            {users.map(user => <option key={user.username} value={user.username}>{user.username}</option>)}
-                                        </select>
-                                    </div>
-                                    <input className="input" value={newUsername} onChange={e => setNewUsername(e.target.value)} placeholder="New username" />
-                                    <input className="input" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Password" />
-                                    <div className="buttons">
-                                        <button className="button is-link is-light" onClick={addUser}>Add User</button>
-                                        <button className="button is-warning is-light" onClick={updateUserPassword}>Update Password</button>
-                                        <button className="button is-danger is-light" onClick={deleteUser}>Delete User</button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {tab === "blob" && (
-                                <div className="admin-grid">
-                                    <p>Load/publish the current config via Vercel Blob.</p>
-                                    <div className="buttons">
-                                        <button className="button is-link is-light" onClick={loadFromBlob}>Load from Blob</button>
-                                        <button className="button is-primary" onClick={publishToBlob}>Publish to Blob</button>
-                                    </div>
-                                    {blobStatus ? <p className="has-text-info">{blobStatus}</p> : null}
-                                </div>
-                            )}
-
-                            <div className="buttons is-right mt-4">
-                                <button className="button" onClick={onClose}>Cancel</button>
-                                <button className="button is-primary" onClick={saveConfigAndClose}>Save Config</button>
+        if (view === "region") {
+            return (
+                <div className="admin-editor-stack">
+                    <div className="admin-editor-card">
+                        <p className="admin-editor-kicker">Regions</p>
+                        <h2 className="title is-4 admin-editor-title">Manage Region</h2>
+                        <div className="admin-form-grid">
+                            <div className="field admin-form-span-2">
+                                <label className="label">Region Name</label>
+                                <input
+                                    className="input"
+                                    value={regionNameInput}
+                                    onChange={e => setRegionNameInput(e.target.value)}
+                                    placeholder="Region name"
+                                />
                             </div>
                         </div>
-                    </>
-                )}
+                        <div className="buttons mt-4">
+                            <button className="button is-link" onClick={addRegion}>Add New Region</button>
+                            <button className="button is-warning is-light" onClick={renameRegion} disabled={!activeRegion}>Rename Selected Region</button>
+                            <button className="button is-danger is-light" onClick={deleteRegion} disabled={!activeRegion}>Delete Selected Region</button>
+                        </div>
+                    </div>
+                    <div className="admin-editor-card">
+                        <p className="admin-editor-kicker">Current Selection</p>
+                        <h3 className="title is-5 admin-editor-title">{activeRegion || "No region selected"}</h3>
+                        <div className="admin-stat-grid">
+                            <div className="admin-stat-card">
+                                <span className="admin-stat-value">{activeEntrances.length}</span>
+                                <span className="admin-stat-label">Entrances</span>
+                            </div>
+                            <div className="admin-stat-card">
+                                <span className="admin-stat-value">{activeTrackerItems.length}</span>
+                                <span className="admin-stat-label">Tracker Items</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        if (view === "tracker") {
+            return (
+                <div className="admin-editor-card">
+                    <p className="admin-editor-kicker">Region · {activeRegion}</p>
+                    <h2 className="title is-4 admin-editor-title">{selectedTrackerItem || "New Tracker Item"}</h2>
+                    <p className="admin-editor-copy">Define the tracker entries that should appear for this region.</p>
+                    <div className="admin-form-grid mt-4">
+                        <div className="field admin-form-span-2">
+                            <label className="label">Tracker Item Name</label>
+                            <input className="input" value={trackerItemInput} onChange={e => setTrackerItemInput(e.target.value)} placeholder="Tracker item name" />
+                        </div>
+                    </div>
+                    <div className="buttons mt-4">
+                        <button className="button is-link" onClick={addOrUpdateTrackerItem}>{selectedTrackerItem ? "Update Item" : "Add Item"}</button>
+                        <button className="button is-light" onClick={startNewTrackerItem}>New Item</button>
+                        <button className="button is-danger is-light" onClick={deleteTrackerItem} disabled={!selectedTrackerItem}>Delete Item</button>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="admin-editor-card">
+                <p className="admin-editor-kicker">Region · {activeRegion}</p>
+                <h2 className="title is-4 admin-editor-title">{selectedEntrance || "New Entrance"}</h2>
+                <p className="admin-editor-copy">Edit entrances for the selected region. Pick one from the middle list or create a new one.</p>
+                <div className="admin-form-grid mt-4">
+                    <div className="field admin-form-span-2">
+                        <label className="label">Entrance Name</label>
+                        <input className="input" value={entranceNameInput} onChange={e => setEntranceNameInput(e.target.value)} placeholder="Entrance name" />
+                    </div>
+                    <div className="field">
+                        <label className="label">Type</label>
+                        <div className="select is-fullwidth">
+                            <select value={entranceTypeInput} onChange={e => setEntranceTypeInput(e.target.value)}>
+                                {Object.values(EntranceTypes).map(type => <option key={type} value={type}>{type}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="field">
+                        <label className="label">Display Label</label>
+                        <input className="input" value={entranceDisplayInput} onChange={e => setEntranceDisplayInput(e.target.value)} placeholder="Optional display label" />
+                    </div>
+                </div>
+                <div className="buttons mt-4">
+                    <button className="button is-link" onClick={addOrUpdateEntrance}>{selectedEntrance ? "Update Entrance" : "Add Entrance"}</button>
+                    <button className="button is-light" onClick={startNewEntrance}>New Entrance</button>
+                    <button className="button is-danger is-light" onClick={deleteEntrance} disabled={!selectedEntrance}>Delete Entrance</button>
+                </div>
             </div>
+        );
+    };
+
+    return (
+        <div className="admin-page">
+            {!isLoggedIn ? (
+                <div className="admin-login-shell">
+                    <div className="admin-login-card">
+                        <p className="admin-editor-kicker">Admin</p>
+                        <h2 className="title is-4 admin-editor-title">Sign in</h2>
+                        <div className="admin-form-grid mt-4">
+                            <div className="field admin-form-span-2">
+                                <label className="label">Username</label>
+                                <input className="input" value={loginUser} onChange={e => setLoginUser(e.target.value)} placeholder="Username" />
+                            </div>
+                            <div className="field admin-form-span-2">
+                                <label className="label">Password</label>
+                                <input className="input" type="password" value={loginPass} onChange={e => setLoginPass(e.target.value)} placeholder="Password" />
+                            </div>
+                        </div>
+                        {loginError ? <p className="has-text-danger mt-2">{loginError}</p> : null}
+                        <div className="buttons mt-5">
+                            <button className="button is-link" onClick={handleLogin}>Login</button>
+                            <button className="button" onClick={onClose}>Back</button>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <div className="admin-shell">
+                    <aside className="admin-region-sidebar">
+                        <div className="admin-sidebar-head">
+                            <p className="admin-sidebar-kicker">Navigation</p>
+                            <h2 className="title is-5 has-text-white mb-0">Regions</h2>
+                        </div>
+                        <div className="admin-region-list">
+                            {regionNames.map(region => (
+                                <button
+                                    key={region}
+                                    type="button"
+                                    className={`admin-nav-item ${region === activeRegion ? "is-active" : ""}`}
+                                    onClick={() => handleSelectRegion(region)}
+                                >
+                                    <span>{region}</span>
+                                    <span className="admin-nav-meta">{Object.keys(draftConfig.hyrule?.[region]?.entrances || {}).length}</span>
+                                </button>
+                            ))}
+                        </div>
+                        <button type="button" className="button is-link is-light is-fullwidth mt-3" onClick={() => {
+                            setView("region");
+                            setRegionNameInput("");
+                        }}>
+                            + New Region
+                        </button>
+                    </aside>
+
+                    <aside className="admin-subnav-sidebar">
+                        <div className="admin-sidebar-head">
+                            <p className="admin-sidebar-kicker">Selected Region</p>
+                            <h3 className="title is-6 has-text-white mb-0">{activeRegion || "No region"}</h3>
+                        </div>
+
+                        <div className="admin-side-section">
+                            <p className="admin-side-label">Region Tools</p>
+                            <div className="admin-side-toggle-group">
+                                <button type="button" className={`admin-pill ${view === "entrances" ? "is-active" : ""}`} onClick={() => setView("entrances")}>Entrances</button>
+                                <button type="button" className={`admin-pill ${view === "tracker" ? "is-active" : ""}`} onClick={() => setView("tracker")}>Tracker Items</button>
+                                <button type="button" className={`admin-pill ${view === "region" ? "is-active" : ""}`} onClick={() => {
+                                    setView("region");
+                                    setRegionNameInput(activeRegion);
+                                }}>Region</button>
+                            </div>
+                        </div>
+
+                        {view === "tracker" ? (
+                            <div className="admin-side-section admin-scroll-section">
+                                <div className="admin-side-label-row">
+                                    <p className="admin-side-label mb-0">Tracker Items</p>
+                                    <button type="button" className="admin-mini-action" onClick={startNewTrackerItem}>+ New</button>
+                                </div>
+                                <div className="admin-subitem-list">
+                                    {activeTrackerItems.map(item => (
+                                        <button
+                                            key={item.name}
+                                            type="button"
+                                            className={`admin-subitem ${selectedTrackerItem === item.name ? "is-active" : ""}`}
+                                            onClick={() => selectTrackerItem(item.name)}
+                                        >
+                                            {item.name}
+                                        </button>
+                                    ))}
+                                    {activeTrackerItems.length === 0 ? <p className="admin-empty-copy">No tracker items yet.</p> : null}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="admin-side-section admin-scroll-section">
+                                <div className="admin-side-label-row">
+                                    <p className="admin-side-label mb-0">Entrances</p>
+                                    <button type="button" className="admin-mini-action" onClick={startNewEntrance}>+ New</button>
+                                </div>
+                                <div className="admin-subitem-list">
+                                    {activeEntrances.map(name => (
+                                        <button
+                                            key={name}
+                                            type="button"
+                                            className={`admin-subitem ${selectedEntrance === name ? "is-active" : ""}`}
+                                            onClick={() => selectEntrance(name)}
+                                        >
+                                            {name}
+                                        </button>
+                                    ))}
+                                    {activeEntrances.length === 0 ? <p className="admin-empty-copy">No entrances yet.</p> : null}
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="admin-side-section">
+                            <p className="admin-side-label">Workspace</p>
+                            <div className="admin-side-stack">
+                                <button type="button" className={`admin-nav-item compact ${view === "users" ? "is-active" : ""}`} onClick={() => setView("users")}>User Access</button>
+                                <button type="button" className={`admin-nav-item compact ${view === "blob" ? "is-active" : ""}`} onClick={() => setView("blob")}>Blob Sync</button>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <section className="admin-main">
+                        <div className="admin-main-header">
+                            <div>
+                                <p className="admin-editor-kicker">ZOoTR Admin</p>
+                                <h1 className="title is-3 admin-main-title">Config Editor</h1>
+                                <p className="admin-editor-copy">Left: choose a region. Middle: choose entrances, tracker items, or workspace tools. Center: edit the selected item.</p>
+                            </div>
+                            <div className="buttons admin-header-actions">
+                                <button className="button is-primary" onClick={saveConfig}>Save Config</button>
+                                <button className="button is-link is-light" onClick={saveConfigAndClose}>Save & Close</button>
+                                <button className="button" onClick={onClose}>Close</button>
+                            </div>
+                        </div>
+                        {renderMainContent()}
+                    </section>
+                </div>
+            )}
         </div>
     );
 }
