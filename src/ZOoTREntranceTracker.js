@@ -94,18 +94,12 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
 
     const getLocationsToPromptForBasedOnState = () => {
         let prompts = [];
-        let startPointSelected = interiorEntrances[Houses["Link's House"]] !== undefined || interiorEntrances[Houses["Temple of Time"]] !== undefined;
+        let startPointSelected = startAsChild ? !!spawnPoints.child : !!spawnPoints.adult;
 
         if (!startPointSelected) {
-            if (startAsChild) {
-                prompts.push(Houses["Link's House"]);
-            } else {
-                prompts.push(Houses["Temple of Time"]);
-            }
+            prompts.push("__spawn__");
             // Don't allow any other prompts if start point isn't set
             return prompts;
-        } else if (!startAsChild && interiorEntrances[Houses["Link's House"]] === undefined) {
-            prompts.push(Houses["Link's House"]);
         }
 
         if (overworldOnly && interiorEntrances[Grottos["Dampe's Grave"]] === undefined) {
