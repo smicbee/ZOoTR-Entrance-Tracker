@@ -4,7 +4,7 @@ import OverworldAreas from "./DataObjects/OverworldAreas";
 import HyruleData from "./DataObjects/Hyrule";
 import LocationTrackerData from "./DataObjects/LocationTrackerData";
 import getInitialState from "./Functions/getInitialState";
-import React, { useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import EntranceTypes from "./DataObjects/EntranceTypes";
 import useLocalStorage from "./Hooks/useLocalStorage";
 import AreasToAdd from "./DataObjects/AreasToAdd";
@@ -37,6 +37,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
     };
     const [trackerConfig, setTrackerConfig] = useLocalStorage("trackerConfig", defaultTrackerConfig);
     const [showAdmin, setShowAdmin] = useState(false);
+    const [didHydrateFromBlob, setDidHydrateFromBlob] = useState(false);
     const normalizedLocationTrackerData = normalizeLocationTrackerData(trackerConfig.hyrule, trackerConfig.locationTrackerData);
 
     let init = getInitialState(trackerConfig.hyrule);
@@ -169,13 +170,17 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
         setLocationChecks({ ...getInitialLocationChecks(normalizeLocationTrackerData(config.hyrule, config.locationTrackerData)), ...(stateToApply.locationChecks || {}) });
     };
 
-    const saveTrackerConfig = (nextConfig) => {
+    const applyTrackerConfig = (nextConfig) => {
         const normalizedConfig = {
             ...nextConfig,
             locationTrackerData: normalizeLocationTrackerData(nextConfig.hyrule, nextConfig.locationTrackerData)
         };
         setTrackerConfig(normalizedConfig);
         applyState({ ...getInitialState(normalizedConfig.hyrule), locationChecks: getInitialLocationChecks(normalizedConfig.locationTrackerData), showTracker: false }, normalizedConfig);
+    };
+
+    const saveTrackerConfig = (nextConfig) => {
+        applyTrackerConfig(nextConfig);
     };
 
     const loadBlobConfig = async () => {
@@ -207,6 +212,37 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
             return { ok: false, error: error.message };
         }
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        if (didHydrateFromBlob) {
+            return;
+        }
+
+        let isCancelled = false;
+
+        const hydrateFromBlob = async () => {
+            const result = await loadBlobConfig();
+            if (isCancelled) {
+                return;
+            }
+            if (result.ok && result.config?.hyrule) {
+                const normalizedConfig = {
+                    ...result.config,
+                    locationTrackerData: normalizeLocationTrackerData(result.config.hyrule, result.config.locationTrackerData)
+                };
+                setTrackerConfig(normalizedConfig);
+                applyState({ ...getInitialState(normalizedConfig.hyrule), locationChecks: getInitialLocationChecks(normalizedConfig.locationTrackerData), showTracker: false }, normalizedConfig);
+            }
+            setDidHydrateFromBlob(true);
+        };
+
+        hydrateFromBlob();
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [didHydrateFromBlob]);
 
     const exportState = () => ({
         availableOverworldEntrances,

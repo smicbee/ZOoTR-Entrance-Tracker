@@ -328,8 +328,10 @@ export default function AdminModal({ isOpen, onClose, trackerConfig, onSaveConfi
             setBlobStatus(result.error || "Blob load failed");
             return;
         }
-        setDraftConfig(clone(result.config));
-        const firstRegion = Object.keys(result.config?.hyrule || {}).sort((a, b) => a.localeCompare(b))[0] || "";
+        const loadedConfig = clone(result.config);
+        onSaveConfig(loadedConfig);
+        setDraftConfig(loadedConfig);
+        const firstRegion = Object.keys(loadedConfig?.hyrule || {}).sort((a, b) => a.localeCompare(b))[0] || "";
         setSelectedRegion(firstRegion);
         setSelectedEntrance("");
         setSelectedTrackerItem("");
