@@ -1568,5 +1568,489 @@ export default {
             }
         }
     }
+,
+
+    // German grotto regions imported from checklist
+    "Friedhof (Hymne der Sonne an Wand spielen)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Friedhof (Hymne der Sonne an Wand spielen)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Friedhof (Königsgrab)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Friedhof (Königsgrab)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Friedhof (Feenbrunnen; Truhe)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Friedhof (Feenbrunnen; Truhe)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Friedhof (Boris Grab)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Friedhof (Boris Grab)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Gebirgspfad (Hymne des Sturms bei Steinkreis vor Eingang zu Goronia)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Gebirgspfad (Hymne des Sturms bei Steinkreis vor Eingang zu Goronia)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Gebirgspfad (1x Kuh + 1x Bienenstock + 7x Rubin + 4x Herz)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Gebirgspfad (1x Kuh + 1x Bienenstock + 7x Rubin + 4x Herz)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Gerudo-Festung (Hymne des Sturms neben Holzkisten)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Gerudo-Festung (Hymne des Sturms neben Holzkisten)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Gerudotal (Hymne des Sturms neben Zelt)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Gerudotal (Hymne des Sturms neben Zelt)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Gerudotal (Handschuhe unter Fels in Schlucht)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Gerudotal (Handschuhe unter Fels in Schlucht)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Goronia (bei Lavasee)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Goronia (bei Lavasee)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Heilige Lichtung (Hymne des Sturms bei Eingang zu Waldtempel)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Heilige Lichtung (Hymne des Sturms bei Eingang zu Waldtempel)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Heilige Lichtung (Mitte)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Heilige Lichtung (Mitte)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Heilige Lichtung (bei Eingang zu Verlorenen Wäldern)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Heilige Lichtung (bei Eingang zu Verlorenen Wäldern)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylianische Steppe (Baum Nähe Kakariko)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylianische Steppe (Baum Nähe Kakariko)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylianische Steppe (Baum Nordwesten)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylianische Steppe (Baum Nordwesten)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylianische Steppe (Steinkreis Nähe Gerudotal)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylianische Steppe (Steinkreis Nähe Gerudotal)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylianische Steppe (bei Hyliasee)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylianische Steppe (bei Hyliasee)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylianische Steppe (Nähe Hyliasee)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylianische Steppe (Nähe Hyliasee)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylianische Steppe (Südosten)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylianische Steppe (Südosten)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylianische Steppe (Nordnordwesten)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylianische Steppe (Nordnordwesten)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylianische Steppe (bei Eingang zu Hyrule)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylianische Steppe (bei Eingang zu Hyrule)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Hylia-See (bei Grab)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Hylia-See (bei Grab)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Kakariko (bei Eingang)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Kakariko (bei Eingang)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Kakariko (bei Windmühle)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Kakariko (bei Windmühle)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Kokiri (Hymne des Sturms bei Eingang zu Verlorenen Wäldern)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Kokiri (Hymne des Sturms bei Eingang zu Verlorenen Wäldern)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Lon Lon-Farm (bei Rückseite von Pferdekoppel)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Lon Lon-Farm (bei Rückseite von Pferdekoppel)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Schloss Hyrule (Hymne des Sturms bei Baum von Schlossgraben)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Schloss Hyrule (Hymne des Sturms bei Baum von Schlossgraben)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Todeskrater (bei Eingang von Gebirgspfad)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Todeskrater (bei Eingang von Gebirgspfad)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Todeskrater (Hammer oder Handschuhe bei Eingang von Goronia)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Todeskrater (Hammer oder Handschuhe bei Eingang von Goronia)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Verlorene Wälder (bei Eingang zu Goronia)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Verlorene Wälder (bei Eingang zu Goronia)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Verlorene Wälder (bei Laubkerlen unter Erde; Masken)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Verlorene Wälder (bei Laubkerlen unter Erde; Masken)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Verlorene Wälder (bei Eingang zu Heiliger Lichtung)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Verlorene Wälder (bei Eingang zu Heiliger Lichtung)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Wüstenkoloss (Handschuhe unter Fels Nähe Plattform)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Wüstenkoloss (Handschuhe unter Fels Nähe Plattform)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Zora-Fluss (Hymne des Sturms bei Steinkreis bei Zugang zu Hylianischer Steppe)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Zora-Fluss (Hymne des Sturms bei Steinkreis bei Zugang zu Hylianischer Steppe)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Zora-Fluss (auf Plateau bei Steinkreis)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Zora-Fluss (auf Plateau bei Steinkreis)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Zora-Fluss (auf Plateau Nähe Skulltula; Truhe + 2x Bienenstock)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Zora-Fluss (auf Plateau Nähe Skulltula; Truhe + 2x Bienenstock)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    },
+    "Zoras Reich (Hymne des Sturms auf Insel bei Eingang)": {
+        colors: ["light", "dark"],
+        isAccessible: false,
+        isExpanded: true,
+        entrances: {
+            "Zoras Reich (Hymne des Sturms auf Insel bei Eingang)": {
+                clear: false,
+                type: EntranceTypes.Grotto,
+                leadsTo: null,
+                interior: null
+            }
+        }
+    }
 
 };

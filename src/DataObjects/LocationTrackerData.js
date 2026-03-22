@@ -3880,6 +3880,663 @@ const LocationTrackerData = {
     "Zitadelle der Zeit": [
 
     ]
+,
+
+    // German grotto tracker regions imported from checklist
+    "Friedhof (Hymne der Sonne an Wand spielen)": [
+        {
+            "name": "bei Herzteil",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Friedhof (Königsgrab)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Friedhof (Feenbrunnen; Truhe)": [
+        {
+            "name": "Feenbrunnen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Friedhof (Boris Grab)": [
+        {
+            "name": "Rubin (7x in Sackgassen 1x bei li. Säule 1 von 3), 6x Krug Eingang",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin (7x in Sackgassen 1x bei li. Säule 1 von 3), 6x Krug Eingang",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin (7x in Sackgassen 1x bei li. Säule 1 von 3), 6x Krug Eingang",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin (7x in Sackgassen 1x bei li. Säule 1 von 3), 6x Krug Eingang",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin (7x in Sackgassen 1x bei li. Säule 1 von 3), 6x Krug Eingang",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin (7x in Sackgassen 1x bei li. Säule 1 von 3), 6x Krug Eingang",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin (7x in Sackgassen 1x bei li. Säule 1 von 3), 6x Krug Eingang",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin (7x in Sackgassen 1x bei li. Säule 1 von 3), 6x Krug Eingang",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Gebirgspfad (Hymne des Sturms bei Steinkreis vor Eingang zu Goronia)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Gebirgspfad (1x Kuh + 1x Bienenstock + 7x Rubin + 4x Herz)": [
+        {
+            "name": "Kuh",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Herz",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Herz",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Herz",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Herz",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Gerudo-Festung (Hymne des Sturms neben Holzkisten)": [
+        {
+            "name": "Feenbrunnen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Gerudotal (Hymne des Sturms neben Zelt)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Gerudotal (Handschuhe unter Fels in Schlucht)": [
+        {
+            "name": "See mit Octorok",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Rubin",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Goronia (bei Lavasee)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Heilige Lichtung (Hymne des Sturms bei Eingang zu Waldtempel)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Heilige Lichtung (Mitte)": [
+        {
+            "name": "Feenbrunnen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Heilige Lichtung (bei Eingang zu Verlorenen Wäldern)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylianische Steppe (Baum Nähe Kakariko)": [
+        {
+            "name": "Skulltula",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylianische Steppe (Baum Nordwesten)": [
+        {
+            "name": "tiefer See Herzteil",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylianische Steppe (Steinkreis Nähe Gerudotal)": [
+        {
+            "name": "Kuh",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Skulltula",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylianische Steppe (bei Hyliasee)": [
+        {
+            "name": "Laubkerl",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Herzteil",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylianische Steppe (Nähe Hyliasee)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylianische Steppe (Südosten)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylianische Steppe (Nordnordwesten)": [
+        {
+            "name": "Feenbrunnen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylianische Steppe (bei Eingang zu Hyrule)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Hylia-See (bei Grab)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Kakariko (bei Eingang)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Kakariko (bei Windmühle)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Kokiri (Hymne des Sturms bei Eingang zu Verlorenen Wäldern)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Lon Lon-Farm (bei Rückseite von Pferdekoppel)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Schloss Hyrule (Hymne des Sturms bei Baum von Schlossgraben)": [
+        {
+            "name": "Skulltula",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Krug",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Todeskrater (bei Eingang von Gebirgspfad)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Todeskrater (Hammer oder Handschuhe bei Eingang von Goronia)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Verlorene Wälder (bei Eingang zu Goronia)": [
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Verlorene Wälder (bei Laubkerlen unter Erde; Masken)": [
+        {
+            "name": "bei Laubkerlen unter Erde",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Masken",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Verlorene Wälder (bei Eingang zu Heiliger Lichtung)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Wüstenkoloss (Handschuhe unter Fels Nähe Plattform)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Zora-Fluss (Hymne des Sturms bei Steinkreis bei Zugang zu Hylianischer Steppe)": [
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Laubkerle",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Zora-Fluss (auf Plateau bei Steinkreis)": [
+        {
+            "name": "Feenbrunnen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Zora-Fluss (auf Plateau Nähe Skulltula; Truhe + 2x Bienenstock)": [
+        {
+            "name": "auf Plateau Nähe Skulltula",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Truhe",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        },
+        {
+            "name": "Bienenstock",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ],
+    "Zoras Reich (Hymne des Sturms auf Insel bei Eingang)": [
+        {
+            "name": "Feenbrunnen",
+            "defaultChecked": false,
+            "meta": "FALSE"
+        }
+    ]
 
 };
 
