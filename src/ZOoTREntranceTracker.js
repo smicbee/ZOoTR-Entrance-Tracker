@@ -802,7 +802,7 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                 trackGaEvent={trackGaEvent}
                 songsHeight={songsHeight}
                 showAdmin={showAdmin}
-                openAdmin={() => setShowAdmin(true)}
+                openAdmin={() => setShowAdmin((current) => !current)}
             />
 
             <div className="top-padding" style={{ height: menuHeight }} />
