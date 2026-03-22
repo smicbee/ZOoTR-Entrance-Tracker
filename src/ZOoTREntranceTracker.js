@@ -94,9 +94,11 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
 
     const getLocationsToPromptForBasedOnState = () => {
         let prompts = [];
-        let startPointSelected = startAsChild ? !!spawnPoints.child : !!spawnPoints.adult;
+        const activeSpawn = startAsChild ? spawnPoints.child : spawnPoints.adult;
+        const startPointSelected = !!activeSpawn;
+        const spawnAreaAccessible = !!(activeSpawn && hyrule[activeSpawn.area] && hyrule[activeSpawn.area].isAccessible);
 
-        if (!startPointSelected) {
+        if (!startPointSelected || !spawnAreaAccessible) {
             prompts.push("__spawn__");
             // Don't allow any other prompts if start point isn't set
             return prompts;
