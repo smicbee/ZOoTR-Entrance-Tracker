@@ -17,14 +17,14 @@ export default function getInitialState(hyruleSource = Hyrule) {
     let overworldOnly = false; // show all entrances by default
     let allOverworldEntrances = {}; // all entrances, never modified
 
-    Object.keys(Hyrule).forEach(area => {
+    Object.keys(hyrule).forEach(area => {
         availableOverworldEntrances[area] = [];
         availableGrottoEntrances[area] = [];
         allOverworldEntrances[area] = [];
 
-        Object.keys(Hyrule[area].entrances).forEach(entranceName => {
+        Object.keys(hyrule[area].entrances).forEach(entranceName => {
 
-            let entrance = Hyrule[area].entrances[entranceName];
+            let entrance = hyrule[area].entrances[entranceName];
             let type = entrance.type;
 
             if (type === EntranceTypes.Overworld) {
