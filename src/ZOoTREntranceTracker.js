@@ -944,11 +944,11 @@ export default function ZOoTREntranceTracker({ ReactGA }) {
                                     href="#spawn"
                                     className={"button is-outlined is-small " + (forceSpawnPrompt ? "is-link" : "is-dark")}
                                     onClick={() => {
-                                        trackGaEvent("config", "reassign spawn");
-                                        setForceSpawnPrompt(true);
+                                        trackGaEvent("config", "open spawn modal");
+                                        setShowSpawnModal(true);
                                     }}
                                 >
-                                    Reassign Spawn
+                                    Set Spawn
                                 </a>
                             </p>
                         </div>
